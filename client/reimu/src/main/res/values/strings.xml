@@ -1,0 +1,68 @@
+<resources>
+    <string name="app_name">Reimu</string>
+    <string name="voicecloud_app_id">54b1650c</string>
+    <string name="simsimi_trial_key">1eef60df-23e1-4f6d-a072-8cbd5ccd9b0f</string>
+    <string name="simsimi_trial_api">http://sandbox.api.simsimi.com/request.p</string>
+    <string name="turing_robot_key">0ead0379d1eef2c0fa635a8b555d28aa</string>
+    <string name="turing_robot_api">http://www.tuling123.com/openapi/api?</string>
+    <string name="robot_no_reply">_(:з」∠)_</string>
+    <string name="text_begin">请开始说话…</string>
+    <string name="home_url">http://zbl1992.vicp.cc/</string>
+    
+    <string name="click_KEYCODE_BACK">再按一次退出程序</string>
+    
+    <string-array name="drawer_array">
+        <item>温度</item>
+        <item>土壤</item>
+        <item>开灯</item>
+        <item>关灯</item>
+    </string-array>
+    
+    <string name="connection_error">连接错误.</string>
+    
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="change_model">少女祈祷中&#8230;</string>
+    <string name="change_model_title">更换模型</string>
+    <string name="author_detail">作者详情</string>
+	<string name="author_detail_title">作者详情</string>
+    <string name="author_detail_text">本程序基于Live2d®引擎由blStudio开发。\n支持方式：支付宝账号 bl_indie@qq.com</string>
+    <string name="mainEdtTxtHnt">想说点什么&#8230;</string>
+    <string name="no_text_in_edit_text">随便说点啥&#8230;</string>
+    <string name="simsimi_no_reply">_(:з」∠)_</string>
+    
+    <!--Below are discriptions.-->
+    <string name="imgBtnVoiceDes">点击此按钮获取语音</string>
+    <string name="imgBtnSendDes">点击此按钮发送</string>
+    
+    <!--下面是语音云的东西-->
+    <!-- 语言 -->
+    <string-array name="language_entries">
+        <item>普通话</item>
+        <item>粤语</item>
+        <item>河南话</item>
+        <item>英语</item>
+    </string-array>
+    <string-array name="language_values">
+        <item>mandarin</item>
+        <item>cantonese</item>
+        <item>henanese</item>
+        <item>en_us</item>
+    </string-array>
+    <!-- 标点符号 -->
+    <string-array name="punc_entries">
+        <item>有标点</item>
+        <item>无标点</item>
+    </string-array>
+    <string-array name="punc_values">
+        <item>1</item>
+        <item>0</item>
+    </string-array>
+    <string-array name="dwa_entries">
+        <item>开启</item>
+        <item>关闭</item>
+    </string-array>
+    <string name="pref_title_iat_dwa">结果动态修正</string>
+    <string name="pref_key_iat_show">iat_show</string>
+    <string name="pref_title_iat_show">显示听写界面</string>
+</resources>

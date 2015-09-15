@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/change_model"
+          android:title="@string/change_model_title"
+          android:showAsAction="never"/>
+    <item android:id="@+id/author_detail"
+          android:title="@string/author_detail_title"
+          android:showAsAction="never"/>
+</menu>

@@ -1,0 +1,106 @@
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <FrameLayout
+        android:id="@+id/live2DLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"        
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="#000000"
+        >
+        
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:layout_margin="5dip"
+            >
+            
+            <Button 
+                android:id="@+id/incomingBallon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:background="@drawable/balloon_incoming_normal"
+                android:text=""
+                android:maxWidth="240dp"
+                android:visibility="invisible"
+                />
+
+	        <LinearLayout
+	            android:id="@+id/bottomLinearLayout"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_alignParentBottom="true"
+	            android:background="@null" >
+	
+	            <ImageButton
+	                android:id="@+id/imgBtnVoice"
+	                android:layout_width="0dp"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="1"
+	                android:background="@null"
+	                android:scaleType="fitCenter"
+	                android:src="@drawable/ic_action_microphone"
+	                android:contentDescription="@string/imgBtnVoiceDes" />
+	
+	            <EditText
+	                android:id="@+id/mainEditText"
+	                android:layout_width="0dp"
+	                android:layout_height="match_parent"
+	                android:layout_weight="7"
+	                android:background="@null"
+	                android:singleLine="true"
+	                android:textColor="#ffffff"
+	                android:hint="@string/mainEdtTxtHnt"
+	                android:textColorHint="#ffffff" />
+	            
+	            <ImageButton
+	                android:id="@+id/imgBtnSend"
+	                android:layout_width="0dp"
+	                android:layout_height="wrap_content"
+	                android:layout_weight="1"
+	                android:background="@null"
+	                android:scaleType="fitCenter"
+	                android:src="@drawable/ic_action_send_now"
+	                android:contentDescription="@string/imgBtnSendDes" />
+	            
+	        </LinearLayout>
+	        
+	        <Button 
+                android:id="@+id/outgoingBallon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/bottomLinearLayout"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/balloon_outgoing_normal"
+                android:text=""
+                android:maxWidth="240dp"                
+                android:visibility="invisible"
+                />
+
+	    </RelativeLayout>
+	    
+    </FrameLayout>
+    
+	<!-- The navigation drawer -->
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/left_drawer"
+        android:scrollbars="vertical"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+        android:divider="@null"
+        />
+
+</android.support.v4.widget.DrawerLayout>
