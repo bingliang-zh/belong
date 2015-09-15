@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package com.blStudio.Reimu;
+package com.blStudio.belong;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
+
+import com.blStudio.belong.R;
 
 /**
  * Adapter for the planet data used in our drawer menu,

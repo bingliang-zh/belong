@@ -8,7 +8,7 @@ import android.preference.PreferenceActivity;
 import android.view.Window;
 
 import com.iflytek.speech.util.SettingTextWatcher;
-import com.blStudio.Reimu.R;
+import com.blStudio.belong.R;
 
 /**
  * 听写设置界面

@@ -5,7 +5,7 @@
  *
  *  (c) Live2D Inc. All rights reserved.
  */
-package com.blStudio.Reimu;
+package com.blStudio.belong;
 
 
 public class LAppDefine

@@ -5,7 +5,7 @@
  *  (c) Live2D Inc. All rights reserved.
  */
 
-package com.blStudio.Reimu;
+package com.blStudio.belong;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,6 +24,7 @@ import java.util.LinkedHashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.blStudio.belong.R;
 import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
 import com.iflytek.cloud.RecognizerListener;

@@ -13,11 +13,10 @@ import java.io.InputStream;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
-import com.blStudio.Reimu.LAppDefine;
+import com.blStudio.belong.LAppDefine;
 
-import jp.live2d.motion.Live2DMotion;
 import jp.live2d.util.UtDebug;
-import jp.live2d.util.UtFile;
+
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
