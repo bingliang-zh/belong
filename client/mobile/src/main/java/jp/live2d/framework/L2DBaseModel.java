@@ -18,25 +18,25 @@ import jp.live2d.motion.MotionQueueManager;
 
 public class L2DBaseModel {
 	
-	protected ALive2DModel		 		live2DModel=null;			
-	protected L2DModelMatrix 			modelMatrix=null;			
+	protected ALive2DModel		 	live2DModel=null;
+	protected L2DModelMatrix 		modelMatrix=null;
 
 	
 	protected Map<String,AMotion> 	expressions ;			
 	protected Map<String,AMotion> 	motions ;		
 
-	protected L2DMotionManager 		mainMotionManager;		
-	protected L2DMotionManager 		expressionManager;		
+	protected L2DMotionManager 	mainMotionManager;
+	protected L2DMotionManager 	expressionManager;
 	protected L2DEyeBlink 			eyeBlink;				
 	protected L2DPhysics 			physics;				
 	protected L2DPose 				pose;					
 
 	protected boolean				debugMode=false;
-	protected boolean 				initialized = false;	
-	protected boolean 				updating = false;		
+	protected boolean 			initialized = false;
+	protected boolean 			updating = false;
 	protected float 				alpha = 1;				
 	protected float 				accAlpha = 0;			
-	protected boolean 				lipSync = false;		
+	protected boolean 			lipSync = false;
 	protected float 				lipSyncValue;			
 
 	
@@ -47,8 +47,6 @@ public class L2DBaseModel {
 	
 	protected float 				dragX=0;
 	protected float 				dragY=0;
-
-	protected long 					startTimeMSec;
 
 
 	public L2DBaseModel()
@@ -112,15 +110,14 @@ public class L2DBaseModel {
 	}
 
 
-	public void setLipSync(boolean v)
-	{
+	public void setLipSync(boolean v) {
 		lipSync=v;
 	}
 
 
 	public void setLipSyncValue(float v)
 	{
-		lipSyncValue=v;
+		lipSyncValue = v;
 	}
 
 

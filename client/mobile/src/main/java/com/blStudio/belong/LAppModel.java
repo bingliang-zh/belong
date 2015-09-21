@@ -46,6 +46,8 @@ public class LAppModel extends L2DBaseModel
 
 	static Object lock = new Object() ;
 
+    static int frameCount = 0;
+
 	public LAppModel()
 	{
 		super();
@@ -178,25 +180,31 @@ public class LAppModel extends L2DBaseModel
 
 	public void update()
 	{
+        frameCount++;
+
 		if(live2DModel == null)
 		{
 			if(LAppDefine.DEBUG_LOG)Log.d(TAG, "Failed to update.");
 			return;
 		}
 
-		long timeMSec = UtSystem.getUserTimeMSec() - startTimeMSec  ;
+		long timeMSec = UtSystem.getUserTimeMSec() ;
 		double timeSec = timeMSec / 1000.0 ;
 		double t = timeSec * 2 * Math.PI  ;
 
+
 		if(MainActivity.lipSync){
-			if(MainActivity.mTts.isSpeaking()==true){
-				setLipSync(true);
-				double value = (Math.sin( t*3 )+1)/2;
-				setLipSyncValue((float)value);
-			}
-			else{
-				setLipSync(false);
-			}
+            if(frameCount%10==0) {
+                if (MainActivity.mTts.isSpeaking() == true) {
+                    setLipSync(true);
+                } else {
+                    setLipSync(false);
+                }
+            }
+            if(lipSync) {
+                double value = (Math.sin(t * 3) + 1) / 2;
+                setLipSyncValue((float) value);
+            }
 		}
 		
 		if(mainMotionManager.isFinished())
