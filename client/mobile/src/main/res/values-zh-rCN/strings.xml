@@ -1,0 +1,23 @@
+<resources>
+
+    <!--International things.-->
+    <string name="app_name">友伴</string>
+    <string name="text_begin">请开始说话&#8230;</string>
+    <string name="click_KEYCODE_BACK">再按一次退出程序</string>
+    <string name="connection_error">连接错误</string>
+    <string name="change_model">少女祈祷中&#8230;</string>
+    <string name="change_model_title">更换模型</string>
+    <string name="author_detail">作者详情</string>
+    <string name="author_detail_title">作者详情</string>
+    <string name="author_detail_text">本程序基于Live2d®引擎由blStudio开发。\n支持方式：支付宝账号 bl_indie@qq.com</string>
+    <string name="mainEdtTxtHnt">想说点什么&#8230;</string>
+    <string name="no_text_in_edit_text">随便说点啥&#8230;</string>
+
+    <string-array name="drawer_array">
+        <item>温度</item>
+        <item>土壤</item>
+        <item>开灯</item>
+        <item>关灯</item>
+    </string-array>
+
+</resources>
