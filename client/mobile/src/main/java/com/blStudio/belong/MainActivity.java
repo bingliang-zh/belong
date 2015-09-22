@@ -79,6 +79,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
     public static SpeechSynthesizer mTts;
     private String mEngineType = SpeechConstant.TYPE_CLOUD;
     private SharedPreferences mTtsSharedPreferences;
+    public static boolean isSpeaking = false;
     // IAT 语音转文字
     private SpeechRecognizer mIat;
 	private SharedPreferences mIatSharedPreferences;
@@ -782,9 +783,15 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
 		setTtsParam();
 		int code = mTts.startSpeaking(str, mTtsListener);
 		if (code != ErrorCode.SUCCESS) {
-			showTip("初始化失败，错误码：" + code);
-		}
+            showTip("初始化失败，错误码：" + code);
+        } else {
+            isSpeaking = true;
+        }
 	}
+
+    public static void updateIsSpeaking(){
+        isSpeaking = mTts.isSpeaking();
+    }
 	
 
 	public void setIatParam() {

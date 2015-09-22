@@ -7,6 +7,8 @@
  */
 package com.blStudio.belong;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.FloatBuffer;
@@ -27,7 +29,6 @@ import jp.live2d.utils.android.ModelSetting;
 import jp.live2d.utils.android.ModelSettingJson;
 import jp.live2d.utils.android.OffscreenImage;
 import jp.live2d.utils.android.SoundManager;
-import android.util.Log;
 
 
 
@@ -194,16 +195,13 @@ public class LAppModel extends L2DBaseModel
 
 
 		if(MainActivity.lipSync){
-            if(frameCount%10==0) {
-                if (MainActivity.mTts.isSpeaking() == true) {
-                    setLipSync(true);
-                } else {
-                    setLipSync(false);
-                }
-            }
-            if(lipSync) {
+            if (MainActivity.isSpeaking == true) {
+                setLipSync(true);
                 double value = (Math.sin(t * 3) + 1) / 2;
                 setLipSyncValue((float) value);
+                MainActivity.updateIsSpeaking();
+            } else {
+                setLipSync(false);
             }
 		}
 		

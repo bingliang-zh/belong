@@ -114,7 +114,6 @@ public class L2DBaseModel {
 		lipSync=v;
 	}
 
-
 	public void setLipSyncValue(float v)
 	{
 		lipSyncValue = v;
