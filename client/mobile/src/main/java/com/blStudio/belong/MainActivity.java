@@ -18,6 +18,7 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -81,21 +82,21 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
     // IAT 语音转文字
     private SpeechRecognizer mIat;
 	private SharedPreferences mIatSharedPreferences;
-    private HashMap<String, String> mIatResults = new LinkedHashMap<String, String>();
-    
+    private HashMap<String, String> mIatResults = new LinkedHashMap<>();
+
     // 树莓派服务器相关
     public static final String TAG = "Network Connect";
     
     // 杂项
     // 界面相关
     private EditText mEditText;
-    private Button oBallon;
-    private Button iBallon;
+    private Button oBalloon;
+    private Button iBalloon;
     private Toast mToast;
     int ret = 0; // 函数调用返回值
     final float endAlpha = 0f;	// 动画结束时的透明度
-    ObjectAnimator oBallonFadeOut;
-    ObjectAnimator iBallonFadeOut;
+    ObjectAnimator oBalloonFadeOut;
+    ObjectAnimator iBalloonFadeOut;
     
 	public MainActivity(){
 		instance=this;
@@ -116,7 +117,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
     	instance.finish();
     }
 
-	@Override
+    @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         
@@ -133,19 +134,19 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         setContentView(R.layout.activity_main);
 
         MyLeftDrawer.init(instance);
-        // set up the drawer's list view with items and click listener
-        MyLeftDrawer.mDrawerList.setAdapter(new MyLeftDrawer(MyLeftDrawer.mDrawerTitles, this));
+
 
 
         mEditText = (EditText)findViewById(R.id.mainEditText);
-        oBallon = (Button)findViewById(R.id.outgoingBallon);
-        iBallon = (Button)findViewById(R.id.incomingBallon);
+        oBalloon = (Button)findViewById(R.id.outgoingBalloon);
+        iBalloon = (Button)findViewById(R.id.incomingBalloon);
 
        
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
-
+        // set up the drawer's list view with items and click listener
+        MyLeftDrawer.mDrawerList.setAdapter(new MyLeftDrawer(MyLeftDrawer.mDrawerTitles, this));
 
 
 
@@ -153,30 +154,30 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
       	FileManager.init(this.getApplicationContext());
       	
       	// 淡出
-      	oBallonFadeOut = ObjectAnimator.ofFloat(oBallon,"alpha",1f,endAlpha);
-      	oBallonFadeOut.setDuration(5000);
-      	oBallonFadeOut.setStartDelay(2000);
+      	oBalloonFadeOut = ObjectAnimator.ofFloat(oBalloon,"alpha",1f,endAlpha);
+      	oBalloonFadeOut.setDuration(5000);
+      	oBalloonFadeOut.setStartDelay(2000);
 		
-      	oBallonFadeOut.addListener(new AnimatorListenerAdapter(){
+      	oBalloonFadeOut.addListener(new AnimatorListenerAdapter(){
 			@Override
 		    public void onAnimationEnd(Animator animation) {
 //		        super.onAnimationEnd(animation);
-		        if(oBallon.getAlpha()==endAlpha){
-		        	oBallon.setVisibility(View.INVISIBLE);
+		        if(oBalloon.getAlpha()==endAlpha){
+		        	oBalloon.setVisibility(View.INVISIBLE);
 		        }
 		    }
 		});
       	
-      	iBallonFadeOut = ObjectAnimator.ofFloat(iBallon,"alpha",1f,endAlpha);
-      	iBallonFadeOut.setDuration(5000);
-      	iBallonFadeOut.setStartDelay(2000);
+      	iBalloonFadeOut = ObjectAnimator.ofFloat(iBalloon,"alpha",1f,endAlpha);
+      	iBalloonFadeOut.setDuration(5000);
+      	iBalloonFadeOut.setStartDelay(2000);
 		
-      	iBallonFadeOut.addListener(new AnimatorListenerAdapter(){
+      	iBalloonFadeOut.addListener(new AnimatorListenerAdapter(){
 			@Override
 		    public void onAnimationEnd(Animator animation) {
 //		        super.onAnimationEnd(animation);
-		        if(iBallon.getAlpha()==endAlpha){
-		        	iBallon.setVisibility(View.INVISIBLE);
+		        if(iBalloon.getAlpha()==endAlpha){
+		        	iBalloon.setVisibility(View.INVISIBLE);
 		        }
 		    }
 		});
@@ -215,23 +216,25 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
 		@Override
 		public void onClick(View v){
 			String inputStr = mEditText.getText().toString();
-			if (inputStr==null||inputStr.equals("")){
+			if (inputStr.equals("")){
 				//未输入字符
 				showTip(getString(R.string.no_text_in_edit_text));
 			}
 			else{
 				mEditText.setText("");
-				showOnOutgoingBallon(inputStr);
-				if(inputStr.equals("开灯")){
-					new DownloadTask().execute(getString(R.string.home_url)+"gpio/gpio_set.php?id=38&mode=out&voltage=high");
-				}
-				else if(inputStr.equals("关灯")){
-					new DownloadTask().execute(getString(R.string.home_url)+"gpio/gpio_set.php?id=38&mode=out&voltage=low");
-				}
-				else{
-					getTuringRobotReply(inputStr);
-//					getSimSimiReply(inputStr);
-				}
+				showOnOutgoingBalloon(inputStr);
+                switch (inputStr) {
+                    case "开灯。":
+                    case "开灯":
+                        new DownloadTask().execute(getString(R.string.home_url) + "gpio/gpio_set.php?id=38&mode=out&voltage=high");
+                        break;
+                    case "关灯":
+                        new DownloadTask().execute(getString(R.string.home_url) + "gpio/gpio_set.php?id=38&mode=out&voltage=low");
+                        break;
+                    default:
+                        getTuringRobotReply(inputStr);
+                        break;
+                }
 			}
 		}
 	}
@@ -300,7 +303,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
     private long exitTime = System.currentTimeMillis();
 	
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event){
+	public boolean onKeyDown(int keyCode, @NonNull KeyEvent event){
 		//双击后退键退出
 		if(keyCode == KeyEvent.KEYCODE_BACK){
 			if((System.currentTimeMillis() - exitTime)>2000){
@@ -317,16 +320,18 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
     	switch (position){
     	case 0:
     		new DownloadTask().execute(getString(R.string.home_url)+"get_temperature.php");
-    		return;
+            break;
     	case 1:
     		new DownloadTask().execute(getString(R.string.home_url)+"gpio/gpio_set.php?id=7&mode=in");
-    		return;
+            break;
     	case 2:
     		new DownloadTask().execute(getString(R.string.home_url)+"gpio/gpio_set.php?id=38&mode=out&voltage=high");
-    		return;
+            break;
     	case 3:
     		new DownloadTask().execute(getString(R.string.home_url)+"gpio/gpio_set.php?id=38&mode=out&voltage=low");
-    		return;
+            break;
+        default:
+            break;
     	}
 //        mDrawerLayout.closeDrawer(mDrawerList);
     }
@@ -412,7 +417,6 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
      * @throws java.io.IOException
      */
     private InputStream downloadUrl(String urlString) throws IOException {
-
         URL url = new URL(urlString);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setReadTimeout(1000 /* milliseconds */);
@@ -421,9 +425,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         conn.setDoInput(true);
         // Start the query
         conn.connect();
-        InputStream stream = conn.getInputStream();
-        return stream;
-
+        return conn.getInputStream();
     }
 
     /** Reads an InputStream and converts it to a String.
@@ -434,27 +436,23 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
      * @throws java.io.UnsupportedEncodingException
      */
         
-    private String readIt(InputStream stream, int len) throws IOException, UnsupportedEncodingException {
+    private String readIt(InputStream stream, int len) throws IOException {
     	if (stream != null) {
             Writer writer = new StringWriter();
-
-            char[] buffer = new char[1024];
-            try
-            {
+            char[] buffer = new char[len];
+            try {
                 Reader reader = new BufferedReader(
                 new InputStreamReader(stream, "UTF-8"));
                 int n;
-                while ((n = reader.read(buffer)) != -1) 
-                {
+                while ((n = reader.read(buffer)) != -1) {
                     writer.write(buffer, 0, n);
                 }
             }
-            finally 
-            {
+            finally {
             	stream.close();
             }
             return writer.toString();
-        } else {       
+        } else {
             return "";
         }
     }
@@ -538,10 +536,8 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
 
 		@Override
 		public void onCompleted(SpeechError error) {
-			if (error == null) {
-				//showTip("播放完成");
-			} else if (error != null) {
-				//showTip(error.getPlainDescription(true));
+			if (error != null) {
+				showTip(error.getPlainDescription(true));
 			}
 		}
 
@@ -554,14 +550,9 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
 	private InitListener mTtsInitListener = new InitListener() {
 		@Override
 		public void onInit(int code) {
-			//Log.d(TAG, "InitListener init() code = " + code);
 			if (code != ErrorCode.SUCCESS) {
-        		showTip("初始化失败,错误码："+code);
-        	} else {
-				// 初始化成功，之后可以调用startSpeaking方法
-        		// 注：有的开发者在onCreate方法中创建完合成对象之后马上就调用startSpeaking进行合成，
-        		// 正确的做法是将onCreate中的startSpeaking调用移至这里
-			}		
+        		showTip("语音合成初始化失败,错误码："+code);
+        	}
 		}
 	};
 	
@@ -619,7 +610,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
 			mIatResults.put(sn, text);
 
 			if (isLast) {
-				printResult(results);
+				printResult();
 			}
 		}
 
@@ -633,42 +624,45 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
 		}
 	};
 	
-	private void printResult(RecognizerResult results) {
+	private void printResult() {
 		
-		StringBuffer resultBuffer = new StringBuffer();
+		StringBuilder resultBuffer = new StringBuilder();
 		for (String key : mIatResults.keySet()) {
 			resultBuffer.append(mIatResults.get(key));
 		}
 		
 		String result = resultBuffer.toString();
 		
-		showOnOutgoingBallon(result);
-		if(result.equals("开灯")||result.equals("开灯。")){
-			new DownloadTask().execute(getString(R.string.home_url)+"gpio/gpio_set.php?id=38&mode=out&voltage=high");
-			showOnInComingBallon("灯已打开~");
-		}
-		else if(result.equals("关灯")||result.equals("关灯。")){
-			new DownloadTask().execute(getString(R.string.home_url)+"gpio/gpio_set.php?id=38&mode=out&voltage=low");
-			showOnInComingBallon("灯已关闭~");
-		}
-		else{
-			getTuringRobotReply(result);
-//			getSimSimiReply(result);
-		}	
+		showOnOutgoingBalloon(result);
+        switch (result) {
+            case "开灯":
+            case "开灯。":
+                new DownloadTask().execute(getString(R.string.home_url) + "gpio/gpio_set.php?id=38&mode=out&voltage=high");
+                showOnInComingBalloon("灯已打开~");
+                break;
+            case "关灯":
+            case "关灯。":
+                new DownloadTask().execute(getString(R.string.home_url) + "gpio/gpio_set.php?id=38&mode=out&voltage=low");
+                showOnInComingBalloon("灯已关闭~");
+                break;
+            default:
+                getTuringRobotReply(result);
+                break;
+        }
 
 	}
 	
-	private void showOnOutgoingBallon(String str){
-		oBallon.setText(str);
-		oBallon.setAlpha(1f);
-		oBallon.setVisibility(View.VISIBLE);
+	private void showOnOutgoingBalloon(String str){
+		oBalloon.setText(str);
+		oBalloon.setAlpha(1f);
+		oBalloon.setVisibility(View.VISIBLE);
 		
-		if(oBallonFadeOut.isStarted()){
-			Log.d("FADEOUT","oBallon end");
-			oBallonFadeOut.cancel();
+		if(oBalloonFadeOut.isStarted()){
+			Log.d("FADEOUT","oBalloon end");
+			oBalloonFadeOut.cancel();
 		}
-		Log.d("FADEOUT","oBallon start");
-		oBallonFadeOut.start();
+		Log.d("FADEOUT","oBalloon start");
+		oBalloonFadeOut.start();
 	}
 	
 	private void getTuringRobotReply(String outgoingString){
@@ -682,7 +676,6 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
 			Log.d("TuringRobot",url);
 			new GetTuringRobot().execute(url);	
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -710,7 +703,8 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
 				JSONObject mJson = new JSONObject(replyJson);
 				int code = mJson.optInt("code");
 				String text = mJson.optString("text");
-				String url,list;
+				String url;
+//                String list;
 				switch (code){
 				case 100000:break;//文本类数据
 				case 305000:
@@ -762,26 +756,25 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
 					text = getString(R.string.robot_no_reply);
 				}
 				Log.d("TuringRobot",text);
-				showOnInComingBallon(text);
+				showOnInComingBalloon(text);
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
             
         }
     }
 	
-	private void showOnInComingBallon(String str){
-		iBallon.setText(str);
-		iBallon.setAlpha(1f);
-		iBallon.setVisibility(View.VISIBLE);
+	private void showOnInComingBalloon(String str){
+		iBalloon.setText(str);
+		iBalloon.setAlpha(1f);
+		iBalloon.setVisibility(View.VISIBLE);
 		
-		if(iBallonFadeOut.isStarted()){
-			Log.d("FADEOUT","iBallon end");
-			iBallonFadeOut.cancel();
+		if(iBalloonFadeOut.isStarted()){
+			Log.d("FADEOUT","iBalloon end");
+			iBalloonFadeOut.cancel();
 		}
-		Log.d("FADEOUT","iBallon start");
-		iBallonFadeOut.start();
+		Log.d("FADEOUT","iBalloon start");
+		iBalloonFadeOut.start();
 		startSpeaking(str);
 	}
 	
