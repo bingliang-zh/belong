@@ -7,43 +7,9 @@
 
 package com.blStudio.belong;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.blStudio.belong.R;
-import com.iflytek.cloud.ErrorCode;
-import com.iflytek.cloud.InitListener;
-import com.iflytek.cloud.RecognizerListener;
-import com.iflytek.cloud.RecognizerResult;
-import com.iflytek.cloud.SpeechConstant;
-import com.iflytek.cloud.SpeechError;
-import com.iflytek.cloud.SpeechRecognizer;
-import com.iflytek.cloud.SpeechSynthesizer;
-import com.iflytek.cloud.SpeechUtility;
-import com.iflytek.cloud.SynthesizerListener;
-import com.iflytek.speech.setting.IatSettings;
-import com.iflytek.speech.util.JsonParser;
-
-import jp.live2d.utils.android.FileManager;
-import jp.live2d.utils.android.SoundManager;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -52,11 +18,6 @@ import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -71,26 +32,50 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.iflytek.cloud.ErrorCode;
+import com.iflytek.cloud.InitListener;
+import com.iflytek.cloud.RecognizerListener;
+import com.iflytek.cloud.RecognizerResult;
+import com.iflytek.cloud.SpeechConstant;
+import com.iflytek.cloud.SpeechError;
+import com.iflytek.cloud.SpeechRecognizer;
+import com.iflytek.cloud.SpeechSynthesizer;
+import com.iflytek.cloud.SpeechUtility;
+import com.iflytek.cloud.SynthesizerListener;
+import com.iflytek.speech.setting.IatSettings;
+import com.iflytek.speech.util.JsonParser;
 
-public class MainActivity extends Activity implements LeftDrawer.OnItemClickListener{
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
+import jp.live2d.utils.android.FileManager;
+import jp.live2d.utils.android.SoundManager;
+
+
+public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickListener{
 	
 	// Live2d相关
 	private LAppLive2DManager live2DMgr ;
 	static private Activity instance;
 	public static Boolean lipSync = true;
-	
-	// navigationdrawer相关
-	private DrawerLayout mDrawerLayout;
-    private RecyclerView mDrawerList;
-	private ActionBarDrawerToggle mDrawerToggle;	
-	private CharSequence mDrawerTitle;
-    private CharSequence mTitle;
-    private String[] mDrawerTitles;
-    
+
     // opencloud语音云相关
     // TTS 文字转语音
     public static SpeechSynthesizer mTts;
-    private String voicer="xiaoqi";
     private String mEngineType = SpeechConstant.TYPE_CLOUD;
     private SharedPreferences mTtsSharedPreferences;
     // IAT 语音转文字
@@ -130,8 +115,7 @@ public class MainActivity extends Activity implements LeftDrawer.OnItemClickList
 		SoundManager.release();
     	instance.finish();
     }
-	
-	@SuppressLint("ShowToast")
+
 	@Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -144,47 +128,26 @@ public class MainActivity extends Activity implements LeftDrawer.OnItemClickList
         mTtsSharedPreferences = getSharedPreferences("com.iflytek.setting", MODE_PRIVATE);
         mIat = SpeechRecognizer.createRecognizer(this, mInitListener);
         mIatSharedPreferences = getSharedPreferences(IatSettings.PREFER_NAME,
-				Activity.MODE_PRIVATE);
+                Activity.MODE_PRIVATE);
         
         setContentView(R.layout.activity_main);
-        
-        mTitle = mDrawerTitle = getTitle();
-        mDrawerTitles = getResources().getStringArray(R.array.drawer_array);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (RecyclerView) findViewById(R.id.left_drawer);
+
+        MyLeftDrawer.init(instance);
+        // set up the drawer's list view with items and click listener
+        MyLeftDrawer.mDrawerList.setAdapter(new MyLeftDrawer(MyLeftDrawer.mDrawerTitles, this));
+
+
         mEditText = (EditText)findViewById(R.id.mainEditText);
         oBallon = (Button)findViewById(R.id.outgoingBallon);
         iBallon = (Button)findViewById(R.id.incomingBallon);
-        
-        // set a custom shadow that overlays the main content when the drawer opens
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        // improve performance by indicating the list if fixed size.
-        mDrawerList.setHasFixedSize(true);
-        mDrawerList.setLayoutManager(new LinearLayoutManager(this));
-        
-        // set up the drawer's list view with items and click listener
-        mDrawerList.setAdapter(new LeftDrawer(mDrawerTitles, this));
+
        
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
-        
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                mDrawerLayout,         /* DrawerLayout object */
-                R.string.drawer_open,  /* "open drawer" description for accessibility */
-                R.string.drawer_close  /* "close drawer" description for accessibility */
-        ) {
-            public void onDrawerClosed(View view) {
-                getActionBar().setTitle(mTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
 
-            public void onDrawerOpened(View drawerView) {
-                getActionBar().setTitle(mDrawerTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
-        };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+
+
 
       	setupGUI();
       	FileManager.init(this.getApplicationContext());
@@ -288,7 +251,7 @@ public class MainActivity extends Activity implements LeftDrawer.OnItemClickList
 	@Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
+        MyLeftDrawer.onConfigurationChanged(newConfig);
     }
  
 	@Override
@@ -301,7 +264,7 @@ public class MainActivity extends Activity implements LeftDrawer.OnItemClickList
 	@Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         // If the nav drawer is open, hide action items related to the content view
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+        boolean drawerOpen = MyLeftDrawer.isDrawerOpen();
         menu.findItem(R.id.author_detail).setVisible(!drawerOpen);
         menu.findItem(R.id.change_model).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
@@ -311,7 +274,7 @@ public class MainActivity extends Activity implements LeftDrawer.OnItemClickList
     public boolean onOptionsItemSelected(MenuItem item) {
     	// call ActionBarDrawerToggle.onOptionsItemSelected(), if it returns true
         // then it has handled the app icon touch event
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+        if (MyLeftDrawer.onOptionsItemSelected(item)) {
             return true;
         }
         // Handle action buttons
@@ -420,7 +383,6 @@ public class MainActivity extends Activity implements LeftDrawer.OnItemClickList
 					}
 				}
         	} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         }
@@ -453,8 +415,8 @@ public class MainActivity extends Activity implements LeftDrawer.OnItemClickList
 
         URL url = new URL(urlString);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setReadTimeout(10000 /* milliseconds */);
-        conn.setConnectTimeout(15000 /* milliseconds */);
+        conn.setReadTimeout(1000 /* milliseconds */);
+        conn.setConnectTimeout(3000 /* milliseconds */);
         conn.setRequestMethod("GET");
         conn.setDoInput(true);
         // Start the query
@@ -495,24 +457,17 @@ public class MainActivity extends Activity implements LeftDrawer.OnItemClickList
         } else {       
             return "";
         }
-//        Reader reader = null;
-//        reader = new InputStreamReader(stream, "UTF-8");
-//        char[] buffer = new char[len];
-//        reader.read(buffer);
-//        return new String(buffer);
     }
 
     @Override
     public void setTitle(CharSequence title) {
-        mTitle = title;
-        getActionBar().setTitle(mTitle);
+        getActionBar().setTitle(title);
     }
     
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState();
+        MyLeftDrawer.syncState();
     }
     
 	void onAuthorDetailClicked(){
@@ -531,7 +486,8 @@ public class MainActivity extends Activity implements LeftDrawer.OnItemClickList
 		if(mEngineType.equals(SpeechConstant.TYPE_CLOUD)) {
 			mTts.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
 			//设置发音人
-			mTts.setParameter(SpeechConstant.VOICE_NAME,voicer);
+            String voicer = "xiaoqi";
+            mTts.setParameter(SpeechConstant.VOICE_NAME, voicer);
 			//设置语速
 			mTts.setParameter(SpeechConstant.SPEED,mTtsSharedPreferences.getString("speed_preference", "50"));
 			//设置音调
@@ -815,62 +771,6 @@ public class MainActivity extends Activity implements LeftDrawer.OnItemClickList
         }
     }
 	
-//	private void getSimSimiReply(String outgoingString){
-////		showTip(outgoingString);
-//		Log.d("SimSimi",outgoingString);
-//		// 简体用ch 繁体用zh
-//		String url = getString(R.string.simsimi_trial_api)
-//				+"?key="+getString(R.string.simsimi_trial_key)
-//				+"&lc=ch&ft=1.0&text="+outgoingString;
-//
-//		Log.d("SimSimi",url);
-//		new GetSimSimi().execute(url);		
-//	}
-//		
-//	private class GetSimSimi extends AsyncTask<String, Void, String> {
-//
-//        @Override
-//        protected String doInBackground(String... urls) {
-//            try {
-//                return loadFromNetwork(urls[0]);
-//            } catch (IOException e) {
-//            	showTip("Simsimi后台暂时无法访问");
-////            	showOnInComingBallon("Simsimi后台无法访问");
-//            	return getString(R.string.connection_error);
-//            }
-//        }
-//
-//        /**
-//         * Uses the logging framework to display the output of the fetch
-//         * operation in the log fragment.
-//         */
-//        @Override
-//        protected void onPostExecute(String replyJson) {
-//        	Log.d(TAG, replyJson);
-//            try {
-//				JSONObject mJson = new JSONObject(replyJson);
-//				String response = mJson.optString("response");
-//				int result = mJson.optInt("result");
-//				String msg = mJson.optString("msg");
-//				if(result!=100){
-//					showTip(String.valueOf(result)+msg);
-//				}
-//				else{
-//					Log.d("SimSimi",response);
-//					if(response==null||response.equals("")){
-//						response = getString(R.string.simsimi_no_reply);
-//					}
-//					Log.d("SimSimi",response);
-//					showOnInComingBallon(response);
-//				}
-//			} catch (JSONException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//            
-//        }
-//    }
-	
 	private void showOnInComingBallon(String str){
 		iBallon.setText(str);
 		iBallon.setAlpha(1f);
@@ -893,12 +793,7 @@ public class MainActivity extends Activity implements LeftDrawer.OnItemClickList
 		}
 	}
 	
-	/**
-	 * 参数设置
-	 * 
-	 * @param param
-	 * @return
-	 */
+
 	public void setIatParam() {
 		// 清空参数
 		mIat.setParameter(SpeechConstant.PARAMS, null);

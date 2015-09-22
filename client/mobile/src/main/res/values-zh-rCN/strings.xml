@@ -13,6 +13,7 @@
     <string name="mainEdtTxtHnt">想说点什么&#8230;</string>
     <string name="no_text_in_edit_text">随便说点啥&#8230;</string>
 
+    <string name="drawer_title">导航抽屉</string>
     <string-array name="drawer_array">
         <item>温度</item>
         <item>土壤</item>

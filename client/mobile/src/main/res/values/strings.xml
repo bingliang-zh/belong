@@ -21,6 +21,7 @@
     <string name="mainEdtTxtHnt">Wanna say something&#8230;</string>
     <string name="no_text_in_edit_text">Just say something&#8230;</string>
 
+    <string name="drawer_title">Navigation Drawer</string>
     <string-array name="drawer_array">
         <item>Temperature</item>
         <item>Dirt</item>

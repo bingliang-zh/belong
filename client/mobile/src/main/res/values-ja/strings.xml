@@ -13,6 +13,7 @@
     <string name="mainEdtTxtHnt">私が何かを言いたいです&#8230;</string>
     <string name="no_text_in_edit_text">さりげなく言います&#8230;</string>
 
+    <string name="drawer_title">リスト</string>
     <string-array name="drawer_array">
         <item>温度</item>
         <item>土壌</item>
