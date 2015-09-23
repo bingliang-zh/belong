@@ -18,7 +18,7 @@
     <string name="author_detail">Author Details</string>
     <string name="author_detail_title">Author Details</string>
     <string name="author_detail_text">This app is developed by blStudio based on Live2d® engine.\nDonation: Alipay bl_indie@qq.com</string>
-    <string name="mainEdtTxtHnt">Wanna say something&#8230;</string>
+    <string name="mainEdtTxtHnt">Want to say something&#8230;</string>
     <string name="no_text_in_edit_text">Just say something&#8230;</string>
 
     <string name="drawer_title">Navigation Drawer</string>
@@ -28,9 +28,14 @@
         <item>Turn Light On</item>
         <item>Turn Light Off</item>
     </string-array>
-    
 
-    <!--Below are discriptions.-->
+    <!--Error things, need translation too-->
+    <string name="init_fail">Initialization failed, error code: </string>
+    <string name="iat_fail">Get voice failed, error code: </string>
+    <string name="tts_fail">Text to sound failed, error code: </string>
+
+
+    <!--Below are descriptions.-->
     <string name="imgBtnVoiceDes">Press this btn to get Voice</string>
     <string name="imgBtnSendDes">Press this btn to send.</string>
     <string name="drawer_open">Open navigation drawer</string>

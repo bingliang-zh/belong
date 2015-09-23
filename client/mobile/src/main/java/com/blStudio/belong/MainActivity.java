@@ -13,11 +13,9 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -33,19 +31,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.iflytek.cloud.ErrorCode;
-import com.iflytek.cloud.InitListener;
-import com.iflytek.cloud.RecognizerListener;
-import com.iflytek.cloud.RecognizerResult;
-import com.iflytek.cloud.SpeechConstant;
-import com.iflytek.cloud.SpeechError;
-import com.iflytek.cloud.SpeechRecognizer;
-import com.iflytek.cloud.SpeechSynthesizer;
-import com.iflytek.cloud.SpeechUtility;
-import com.iflytek.cloud.SynthesizerListener;
-import com.iflytek.speech.setting.IatSettings;
-import com.iflytek.speech.util.JsonParser;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -60,8 +45,6 @@ import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 import jp.live2d.utils.android.FileManager;
 import jp.live2d.utils.android.SoundManager;
@@ -73,36 +56,21 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
     private LAppLive2DManager live2DMgr ;
     static private Activity instance;
     public static Boolean lipSync = true;
-
-    // opencloud语音云相关
-    // TTS 文字转语音
-    public static SpeechSynthesizer mTts;
-    private String mEngineType = SpeechConstant.TYPE_CLOUD;
-    private SharedPreferences mTtsSharedPreferences;
     public static boolean isSpeaking = false;
-    // IAT 语音转文字
-    private SpeechRecognizer mIat;
-    private SharedPreferences mIatSharedPreferences;
-    private HashMap<String, String> mIatResults = new LinkedHashMap<>();
-
-    // 树莓派服务器相关
-    public static final String TAG = "Network Connect";
     
     // 杂项
     // 界面相关
-    private EditText mEditText;
-    private Button oBalloon;
-    private Button iBalloon;
-    private Toast mToast;
-    int ret = 0; // 函数调用返回值
+    private static EditText mEditText;
+    private static Button oBalloon;
+    private static Button iBalloon;
+    private static Toast mToast;
     final float endAlpha = 0f; // 动画结束时的透明度
-    ObjectAnimator oBalloonFadeOut;
-    ObjectAnimator iBalloonFadeOut;
+    static ObjectAnimator oBalloonFadeOut;
+    static ObjectAnimator iBalloonFadeOut;
     
     public MainActivity(){
         instance=this;
-        if(LAppDefine.DEBUG_LOG)
-        {
+        if(LAppDefine.DEBUG_LOG) {
             Log.d( "", "==============================================\n" ) ;
             Log.d( "", "   Live2D Sample  \n" ) ;
             Log.d( "", "==============================================\n" ) ;
@@ -125,18 +93,11 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         mToast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
         
         // 初始化讯飞语音云平台
-        SpeechUtility.createUtility(MainActivity.this, "appid="+getString(R.string.voicecloud_app_id));
-        mTts = SpeechSynthesizer.createSynthesizer(this, mTtsInitListener);
-        mTtsSharedPreferences = getSharedPreferences("com.iflytek.setting", MODE_PRIVATE);
-        mIat = SpeechRecognizer.createRecognizer(this, mInitListener);
-        mIatSharedPreferences = getSharedPreferences(IatSettings.PREFER_NAME,
-                Activity.MODE_PRIVATE);
-        
+        MyVoiceCloud.init(instance);
+
         setContentView(R.layout.activity_main);
 
         MyLeftDrawer.init(instance);
-
-
 
         mEditText = (EditText)findViewById(R.id.mainEditText);
         oBalloon = (Button)findViewById(R.id.outgoingBalloon);
@@ -202,14 +163,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
     class GetVoice implements OnClickListener{
         @Override
         public void onClick(View v){
-            mIatResults.clear();
-            setIatParam();
-            ret = mIat.startListening(recognizerListener);
-            if (ret != ErrorCode.SUCCESS) {
-                showTip("听写失败,错误码：" + ret);
-            } else {
-                showTip(getString(R.string.text_begin));
-            }
+            MyVoiceCloud.getVoice();
         }
     }
     
@@ -395,7 +349,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
     }
     
     /** Initiates the fetch operation. */
-    private String loadFromNetwork(String urlString) throws IOException {
+    private static String loadFromNetwork(String urlString) throws IOException {
         InputStream stream = null;
         String str ="";
 
@@ -417,7 +371,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
      * @return An InputStream retrieved from a successful HttpURLConnection.
      * @throws java.io.IOException
      */
-    private InputStream downloadUrl(String urlString) throws IOException {
+    private static InputStream downloadUrl(String urlString) throws IOException {
         URL url = new URL(urlString);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setReadTimeout(1000 /* milliseconds */);
@@ -437,7 +391,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
      * @throws java.io.UnsupportedEncodingException
      */
         
-    private String readIt(InputStream stream, int len) throws IOException {
+    private static String readIt(InputStream stream, int len) throws IOException {
         if (stream != null) {
             Writer writer = new StringWriter();
             char[] buffer = new char[len];
@@ -478,174 +432,28 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         builder.create().show();
     }
     
-    private void setTtsParam(){
-        // 清空参数
-        mTts.setParameter(SpeechConstant.PARAMS, null);
-        //设置合成
-        if(mEngineType.equals(SpeechConstant.TYPE_CLOUD)) {
-            mTts.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_CLOUD);
-            //设置发音人
-            String voicer = "xiaoqi";
-            mTts.setParameter(SpeechConstant.VOICE_NAME, voicer);
-            //设置语速
-            mTts.setParameter(SpeechConstant.SPEED,mTtsSharedPreferences.getString("speed_preference", "50"));
-            //设置音调
-            mTts.setParameter(SpeechConstant.PITCH,mTtsSharedPreferences.getString("pitch_preference", "50"));
-            //设置音量
-            mTts.setParameter(SpeechConstant.VOLUME,mTtsSharedPreferences.getString("volume_preference", "50"));
-            //设置播放器音频流类型
-            mTts.setParameter(SpeechConstant.STREAM_TYPE,mTtsSharedPreferences.getString("stream_preference", "3"));
-        }else {
-            mTts.setParameter(SpeechConstant.ENGINE_TYPE, SpeechConstant.TYPE_LOCAL);
-            //设置发音人 voicer为空默认通过语音+界面指定发音人。
-            mTts.setParameter(SpeechConstant.VOICE_NAME,"");
-        }
-    }
+
     
-    private SynthesizerListener mTtsListener = new SynthesizerListener() {
-        @Override
-        public void onSpeakBegin() {
-            //showTip("开始播放");
-        }
 
-        @Override
-        public void onSpeakPaused() {
-            //showTip("暂停播放");
-        }
-
-        @Override
-        public void onSpeakResumed() {
-            //showTip("继续播放");
-        }
-
-        @Override
-        public void onBufferProgress(int percent, int beginPos, int endPos,
-                String info) {
-            // 合成进度
-            //mPercentForBuffering = percent;
-            //showTip(String.format(getString(R.string.tts_toast_format),
-                    //mPercentForBuffering, mPercentForPlaying));
-        }
-
-        @Override
-        public void onSpeakProgress(int percent, int beginPos, int endPos) {
-            // 播放进度
-            //mPercentForPlaying = percent;
-            //showTip(String.format(getString(R.string.tts_toast_format),
-            //    mPercentForBuffering, mPercentForPlaying));
-        }
-
-        @Override
-        public void onCompleted(SpeechError error) {
-            if (error != null) {
-                showTip(error.getPlainDescription(true));
-            }
-        }
-
-        @Override
-        public void onEvent(int eventType, int arg1, int arg2, Bundle obj) {
-            
-        }
-    };
     
-    private InitListener mTtsInitListener = new InitListener() {
-        @Override
-        public void onInit(int code) {
-            if (code != ErrorCode.SUCCESS) {
-                showTip("语音合成初始化失败,错误码："+code);
-            }
-        }
-    };
+
     
-    /**
-     * 初始化监听器。
-     */
-    private InitListener mInitListener = new InitListener() {
 
-        @Override
-        public void onInit(int code) {
-            Log.d(TAG, "SpeechRecognizer init() code = " + code);
-            if (code != ErrorCode.SUCCESS) {
-                showTip("初始化失败，错误码：" + code);
-            }
-        }
-    };
     
-    /**
-     * 听写监听器。
-     */
-    private RecognizerListener recognizerListener = new RecognizerListener() {
+    public static void printResult(String result) {
 
-        @Override
-        public void onBeginOfSpeech() {
-            showTip("开始说话");
-        }
-
-        @Override
-        public void onError(SpeechError error) {
-            // Tips：
-            // 错误码：10118(您没有说话)，可能是录音机权限被禁，需要提示用户打开应用的录音权限。
-            // 如果使用本地功能（语音+）需要提示用户开启语音+的录音权限。
-            showTip(error.getPlainDescription(true));
-        }
-
-        @Override
-        public void onEndOfSpeech() {
-            showTip("结束说话");
-        }
-
-        @Override
-        public void onResult(RecognizerResult results, boolean isLast) {
-            Log.d(TAG, results.getResultString());
-            String text = JsonParser.parseIatResult(results.getResultString());
-
-            String sn = null;
-            // 读取json结果中的sn字段
-            try {
-                JSONObject resultJson = new JSONObject(results.getResultString());
-                sn = resultJson.optString("sn");
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            mIatResults.put(sn, text);
-
-            if (isLast) {
-                printResult();
-            }
-        }
-
-        @Override
-        public void onVolumeChanged(int volume) {
-            showTip("当前正在说话，音量大小：" + volume);
-        }
-
-        @Override
-        public void onEvent(int eventType, int arg1, int arg2, Bundle obj) {
-        }
-    };
-    
-    private void printResult() {
-        
-        StringBuilder resultBuffer = new StringBuilder();
-        for (String key : mIatResults.keySet()) {
-            resultBuffer.append(mIatResults.get(key));
-        }
-        
-        String result = resultBuffer.toString();
-        
         showOnOutgoingBalloon(result);
         switch (result) {
-            case "开灯":
-            case "开灯。":
-                new DownloadTask().execute(getString(R.string.home_url) + "gpio/gpio_set.php?id=38&mode=out&voltage=high");
-                showOnInComingBalloon("灯已打开~");
-                break;
-            case "关灯":
-            case "关灯。":
-                new DownloadTask().execute(getString(R.string.home_url) + "gpio/gpio_set.php?id=38&mode=out&voltage=low");
-                showOnInComingBalloon("灯已关闭~");
-                break;
+//            case "开灯":
+//            case "开灯。":
+//                new DownloadTask().execute(getString(R.string.home_url) + "gpio/gpio_set.php?id=38&mode=out&voltage=high");
+//                showOnInComingBalloon("灯已打开~");
+//                break;
+//            case "关灯":
+//            case "关灯。":
+//                new DownloadTask().execute(getString(R.string.home_url) + "gpio/gpio_set.php?id=38&mode=out&voltage=low");
+//                showOnInComingBalloon("灯已关闭~");
+//                break;
             default:
                 getTuringRobotReply(result);
                 break;
@@ -653,7 +461,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
 
     }
     
-    private void showOnOutgoingBalloon(String str){
+    private static void showOnOutgoingBalloon(String str){
         oBalloon.setText(str);
         oBalloon.setAlpha(1f);
         oBalloon.setVisibility(View.VISIBLE);
@@ -666,13 +474,13 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         oBalloonFadeOut.start();
     }
     
-    private void getTuringRobotReply(String outgoingString){
-        Log.d("TuringRobot",outgoingString);
+    private static void getTuringRobotReply(String outgoingString){
+        Log.d("TuringRobot", outgoingString);
         String info;
         try {
             info = URLEncoder.encode(outgoingString, "UTF-8");
-            String url = getString(R.string.turing_robot_api)
-                    +"key="+getString(R.string.turing_robot_key)
+            String url = instance.getString(R.string.turing_robot_api)
+                    +"key="+instance.getString(R.string.turing_robot_key)
                     +"&info="+info;
             Log.d("TuringRobot",url);
             new GetTuringRobot().execute(url);
@@ -681,7 +489,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         }
     }
         
-    private class GetTuringRobot extends AsyncTask<String, Void, String> {
+    private static class GetTuringRobot extends AsyncTask<String, Void, String> {
 
         @Override
         protected String doInBackground(String... urls) {
@@ -689,7 +497,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
                 return loadFromNetwork(urls[0]);
             } catch (IOException e) {
                 showTip("TuringRobot后台暂时无法访问");
-                return getString(R.string.connection_error);
+                return instance.getString(R.string.connection_error);
             }
         }
 
@@ -754,7 +562,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
 //              }
                 Log.d("TuringRobot",text);
                 if(text==null||text.equals("")){
-                    text = getString(R.string.robot_no_reply);
+                    text = instance.getString(R.string.robot_no_reply);
                 }
                 Log.d("TuringRobot",text);
                 showOnInComingBalloon(text);
@@ -765,7 +573,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         }
     }
     
-    private void showOnInComingBalloon(String str){
+    private static void showOnInComingBalloon(String str){
         iBalloon.setText(str);
         iBalloon.setAlpha(1f);
         iBalloon.setVisibility(View.VISIBLE);
@@ -779,56 +587,17 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         startSpeaking(str);
     }
     
-    private void startSpeaking(String str){
-        setTtsParam();
-        int code = mTts.startSpeaking(str, mTtsListener);
-        if (code != ErrorCode.SUCCESS) {
-            showTip("初始化失败，错误码：" + code);
-        } else {
+    private static void startSpeaking(String str){
+        if (MyVoiceCloud.startSpeaking(str)) {
             isSpeaking = true;
         }
     }
 
     public static void updateIsSpeaking(){
-        isSpeaking = mTts.isSpeaking();
+        isSpeaking = MyVoiceCloud.isSpeaking();
     }
     
-
-    public void setIatParam() {
-        // 清空参数
-        mIat.setParameter(SpeechConstant.PARAMS, null);
-
-        // 设置听写引擎
-        mIat.setParameter(SpeechConstant.ENGINE_TYPE, mEngineType);
-        // 设置返回结果格式
-        mIat.setParameter(SpeechConstant.RESULT_TYPE, "json");
-
-        String lag = mIatSharedPreferences.getString("iat_language_preference",
-                "mandarin");
-        if (lag.equals("en_us")) {
-            // 设置语言
-            mIat.setParameter(SpeechConstant.LANGUAGE, "en_us");
-        } else {
-            // 设置语言
-            mIat.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
-            // 设置语言区域
-            mIat.setParameter(SpeechConstant.ACCENT, lag);
-        }
-        // 设置语音前端点
-        mIat.setParameter(SpeechConstant.VAD_BOS, mIatSharedPreferences.getString("iat_vadbos_preference", "4000"));
-        // 设置语音后端点
-        mIat.setParameter(SpeechConstant.VAD_EOS, mIatSharedPreferences.getString("iat_vadeos_preference", "1000"));
-        // 设置标点符号
-        mIat.setParameter(SpeechConstant.ASR_PTT, mIatSharedPreferences.getString("iat_punc_preference", "1"));
-        // 设置音频保存路径
-        mIat.setParameter(SpeechConstant.ASR_AUDIO_PATH, Environment.getExternalStorageDirectory()
-                + "/iflytek/wavaudio.pcm");
-        // 设置听写结果是否结果动态修正，为“1”则在听写过程中动态递增地返回结果，否则只在听写结束之后返回最终结果
-        // 注：该参数暂时只对在线听写有效
-        mIat.setParameter(SpeechConstant.ASR_DWA, mIatSharedPreferences.getString("iat_dwa_preference", "0"));
-    }
-    
-    private void showTip(final String str) {
+    public static void showTip(final String str) {
         mToast.setText(str);
         mToast.show();
     }
