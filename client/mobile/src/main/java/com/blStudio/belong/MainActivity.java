@@ -57,8 +57,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
     static private Activity instance;
     public static Boolean lipSync = true;
     public static boolean isSpeaking = false;
-    
-    // 杂项
+
     // 界面相关
     private static EditText mEditText;
     private static Button oBalloon;
@@ -75,7 +74,6 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
             Log.d( "", "   Live2D Sample  \n" ) ;
             Log.d( "", "==============================================\n" ) ;
         }
-
         SoundManager.init(this);
         live2DMgr = new LAppLive2DManager() ;
     }
@@ -116,33 +114,23 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         FileManager.init(this.getApplicationContext());
         
         // 淡出
-        oBalloonFadeOut = ObjectAnimator.ofFloat(oBalloon,"alpha",1f,endAlpha);
-        oBalloonFadeOut.setDuration(5000);
-        oBalloonFadeOut.setStartDelay(2000);
-        
-        oBalloonFadeOut.addListener(new AnimatorListenerAdapter(){
+        oBalloonFadeOut = setFadeOut(oBalloon);
+        iBalloonFadeOut = setFadeOut(iBalloon);
+    }
+
+    ObjectAnimator setFadeOut(final Button btn){
+        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(btn,"alpha",1f,endAlpha);
+        fadeOut.setDuration(5000);
+        fadeOut.setStartDelay(2000);
+        fadeOut.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
-//              super.onAnimationEnd(animation);
-                if(oBalloon.getAlpha()==endAlpha){
-                    oBalloon.setVisibility(View.INVISIBLE);
+                if (btn.getAlpha() == endAlpha) {
+                    btn.setVisibility(View.INVISIBLE);
                 }
             }
         });
-        
-        iBalloonFadeOut = ObjectAnimator.ofFloat(iBalloon,"alpha",1f,endAlpha);
-        iBalloonFadeOut.setDuration(5000);
-        iBalloonFadeOut.setStartDelay(2000);
-        
-        iBalloonFadeOut.addListener(new AnimatorListenerAdapter(){
-            @Override
-            public void onAnimationEnd(Animator animation) {
-//              super.onAnimationEnd(animation);
-                if(iBalloon.getAlpha()==endAlpha){
-                    iBalloon.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
+        return fadeOut;
     }
     
     void setupGUI(){        
