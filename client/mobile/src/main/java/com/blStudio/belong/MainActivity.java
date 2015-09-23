@@ -49,12 +49,12 @@ import java.net.URLEncoder;
 import jp.live2d.utils.android.FileManager;
 import jp.live2d.utils.android.SoundManager;
 
-
 public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickListener{
-    
+
+    static private Activity instance;
+
     // Live2d相关
     private LAppLive2DManager live2DMgr ;
-    static private Activity instance;
     public static Boolean lipSync = true;
     public static boolean isSpeaking = false;
 
@@ -63,74 +63,26 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
     private static Button oBalloon;
     private static Button iBalloon;
     private static Toast mToast;
-    final float endAlpha = 0f; // 动画结束时的透明度
     static ObjectAnimator oBalloonFadeOut;
     static ObjectAnimator iBalloonFadeOut;
-    
-    public MainActivity(){
-        instance=this;
-        if(LAppDefine.DEBUG_LOG) {
-            Log.d( "", "==============================================\n" ) ;
-            Log.d( "", "   Live2D Sample  \n" ) ;
-            Log.d( "", "==============================================\n" ) ;
-        }
-        SoundManager.init(this);
-        live2DMgr = new LAppLive2DManager() ;
-    }
-
-
-     static public void exit(){
-        SoundManager.release();
-        instance.finish();
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        
+        instance=this;
         mToast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
+
+        // live2d
+        SoundManager.init(this);
+        live2DMgr = new LAppLive2DManager();
+        FileManager.init(this.getApplicationContext());
         
         // 初始化讯飞语音云平台
         MyVoiceCloud.init(instance);
 
+        // 界面
         setContentView(R.layout.activity_main);
-
-        MyLeftDrawer.init(instance);
-
-        mEditText = (EditText)findViewById(R.id.mainEditText);
-        oBalloon = (Button)findViewById(R.id.outgoingBalloon);
-        iBalloon = (Button)findViewById(R.id.incomingBalloon);
-
-       
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
-
-        // set up the drawer's list view with items and click listener
-        MyLeftDrawer.mDrawerList.setAdapter(new MyLeftDrawer(MyLeftDrawer.mDrawerTitles, this));
-
-
-
         setupGUI();
-        FileManager.init(this.getApplicationContext());
-        
-        // 淡出
-        oBalloonFadeOut = setFadeOut(oBalloon);
-        iBalloonFadeOut = setFadeOut(iBalloon);
-    }
-
-    ObjectAnimator setFadeOut(final Button btn){
-        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(btn,"alpha",1f,endAlpha);
-        fadeOut.setDuration(5000);
-        fadeOut.setStartDelay(2000);
-        fadeOut.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if (btn.getAlpha() == endAlpha) {
-                    btn.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
-        return fadeOut;
     }
     
     void setupGUI(){        
@@ -146,20 +98,47 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         ImageButton imgBtnSend = (ImageButton)findViewById(R.id.imgBtnSend);
         SendMessage imgBtnSendListener = new SendMessage();
         imgBtnSend.setOnClickListener(imgBtnSendListener);
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+        mEditText = (EditText)findViewById(R.id.mainEditText);
+        oBalloon = (Button)findViewById(R.id.outgoingBalloon);
+        iBalloon = (Button)findViewById(R.id.incomingBalloon);
+        oBalloonFadeOut = setFadeOut(oBalloon);
+        iBalloonFadeOut = setFadeOut(iBalloon);
+        MyLeftDrawer.init(instance);
+        MyLeftDrawer.mDrawerList.setAdapter(new MyLeftDrawer(MyLeftDrawer.mDrawerTitles, this));
     }
-    
+
+    ObjectAnimator setFadeOut(final Button btn){
+        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(btn,"alpha",1f,0f);
+        fadeOut.setDuration(5000);
+        fadeOut.setStartDelay(2000);
+        fadeOut.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (btn.getAlpha() == 0f) {
+                    btn.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+        return fadeOut;
+    }
+
+    // 录音按钮
     class GetVoice implements OnClickListener{
         @Override
         public void onClick(View v){
             MyVoiceCloud.getVoice();
         }
     }
-    
+
+    // 发送按钮
     class SendMessage implements OnClickListener{
         @Override
         public void onClick(View v){
             String inputStr = mEditText.getText().toString();
-            if (inputStr.equals("")){
+            if (inputStr.equals("")) {
                 //未输入字符
                 showTip(getString(R.string.no_text_in_edit_text));
             }
@@ -248,11 +227,11 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
     @Override
     public boolean onKeyDown(int keyCode, @NonNull KeyEvent event){
         //双击后退键退出
-        if(keyCode == KeyEvent.KEYCODE_BACK){
-            if((System.currentTimeMillis() - exitTime)>2000){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - exitTime)>2000) {
                 showTip(getString(R.string.click_KEYCODE_BACK));
                 exitTime = System.currentTimeMillis();
-            }else{
+            } else {
                 exit();
             }
         }
@@ -276,7 +255,6 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         default:
             break;
         }
-//        mDrawerLayout.closeDrawer(mDrawerList);
     }
     
     /**
@@ -344,7 +322,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         try {
             stream = downloadUrl(urlString);
             str = readIt(stream, 500);
-       } finally {
+        } finally {
            if (stream != null) {
                stream.close();
             }
@@ -584,7 +562,12 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
     public static void updateIsSpeaking(){
         isSpeaking = MyVoiceCloud.isSpeaking();
     }
-    
+
+    static public void exit(){
+        SoundManager.release();
+        instance.finish();
+    }
+
     public static void showTip(final String str) {
         mToast.setText(str);
         mToast.show();
