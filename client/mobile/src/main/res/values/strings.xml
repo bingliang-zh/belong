@@ -37,6 +37,7 @@
 
     <!--Below are descriptions.-->
     <string name="imgBtnVoiceDes">Press this btn to get Voice</string>
+    <string name="imgBtnCameraDes">Press this btn to take a picture</string>
     <string name="imgBtnSendDes">Press this btn to send.</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>

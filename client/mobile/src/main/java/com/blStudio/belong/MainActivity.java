@@ -76,8 +76,8 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         layout.addView(view, 0, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         
         ImageButton imgBtnVoice = (ImageButton)findViewById(R.id.imgBtnVoice);
-        imgBtnVoice.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        imgBtnVoice.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 MyVoiceCloud.getVoice();
             }
         });
@@ -86,6 +86,13 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         imgBtnSend.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 sendMessage();
+            }
+        });
+
+        ImageButton imgBtnCamera = (ImageButton)findViewById(R.id.imgBtnCamera);
+        imgBtnCamera.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                MyPrintScreen.printScreen(instance);
             }
         });
 
