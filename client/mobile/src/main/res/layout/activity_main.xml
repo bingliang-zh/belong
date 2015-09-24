@@ -22,13 +22,13 @@
             >
             
             <Button 
-                android:id="@+id/incomingBalloon"
+                android:id="@+id/replyBalloon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:background="@drawable/balloon_incoming_normal"
+                android:background="@drawable/balloon_reply_normal"
                 android:text=""
                 android:maxWidth="240dp"
                 android:visibility="invisible"
@@ -75,13 +75,13 @@
 	        </LinearLayout>
 	        
 	        <Button 
-                android:id="@+id/outgoingBalloon"
+                android:id="@+id/sendBalloon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/bottomLinearLayout"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:background="@drawable/balloon_outgoing_normal"
+                android:background="@drawable/balloon_send_normal"
                 android:text=""
                 android:maxWidth="240dp"                
                 android:visibility="invisible"

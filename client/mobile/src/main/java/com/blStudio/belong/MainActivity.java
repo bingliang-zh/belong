@@ -33,6 +33,7 @@ import jp.live2d.utils.android.SoundManager;
 public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickListener{
 
     static private Activity instance;
+    private static Toast mToast;
 
     // Live2d相关
     private LAppLive2DManager live2DMgr ;
@@ -41,11 +42,10 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
 
     // 界面相关
     private static EditText mEditText;
-    private static Button oBalloon;
-    private static Button iBalloon;
-    private static Toast mToast;
-    static ObjectAnimator oBalloonFadeOut;
-    static ObjectAnimator iBalloonFadeOut;
+    private static Button sendBalloon;
+    private static Button replyBalloon;
+    static ObjectAnimator sendBalloonFadeOut;
+    static ObjectAnimator replyBalloonFadeOut;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -92,10 +92,10 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
         mEditText = (EditText)findViewById(R.id.mainEditText);
-        oBalloon = (Button)findViewById(R.id.outgoingBalloon);
-        iBalloon = (Button)findViewById(R.id.incomingBalloon);
-        oBalloonFadeOut = MyAnimation.setFadeOut(oBalloon);
-        iBalloonFadeOut = MyAnimation.setFadeOut(iBalloon);
+        sendBalloon = (Button)findViewById(R.id.sendBalloon);
+        replyBalloon = (Button)findViewById(R.id.replyBalloon);
+        sendBalloonFadeOut = MyAnimation.setFadeOut(sendBalloon);
+        replyBalloonFadeOut = MyAnimation.setFadeOut(replyBalloon);
         MyLeftDrawer.init(instance);
         MyLeftDrawer.mDrawerList.setAdapter(new MyLeftDrawer(MyLeftDrawer.mDrawerTitles, this));
     }
@@ -107,7 +107,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
             showTip(getString(R.string.no_text_in_edit_text));
         } else {
             mEditText.setText("");
-            showOnBalloon(inputStr, oBalloon, oBalloonFadeOut);
+            showOnBalloon(inputStr, sendBalloon, sendBalloonFadeOut);
             MyNetwork.sendMessage(inputStr);
         }
     }
@@ -208,12 +208,12 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
     }
 
     public static void printResult(String result) {
-        showOnBalloon(result, oBalloon, oBalloonFadeOut);
+        showOnBalloon(result, sendBalloon, sendBalloonFadeOut);
         MyNetwork.printResult(result);
     }
 
     public static void showOnIncomingBalloon(String str){
-        showOnBalloon(str, iBalloon, iBalloonFadeOut);
+        showOnBalloon(str, replyBalloon, replyBalloonFadeOut);
     }
 
     private static void showOnBalloon(String str, Button btn, ObjectAnimator obj) {
