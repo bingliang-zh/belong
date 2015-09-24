@@ -57,9 +57,9 @@ public class MyVoiceCloud {
         setIatParam();
         int code = mIat.startListening(recognizerListener);
         if (code != ErrorCode.SUCCESS) {
-            MainActivity.showTip(mApp.getString(R.string.iat_fail) + code);
+            showTip(mApp.getString(R.string.iat_fail) + code);
         } else {
-            MainActivity.showTip(mApp.getString(R.string.text_begin));
+            showTip(mApp.getString(R.string.text_begin));
         }
     }
 
@@ -101,7 +101,7 @@ public class MyVoiceCloud {
         @Override
         public void onInit(int code) {
             if (code != ErrorCode.SUCCESS) {
-                MainActivity.showTip(mApp.getString(R.string.init_fail) + code);
+                showTip(mApp.getString(R.string.init_fail) + code);
             }
         }
     };
@@ -110,7 +110,7 @@ public class MyVoiceCloud {
 
         @Override
         public void onBeginOfSpeech() {
-            MainActivity.showTip("开始说话");
+            showTip("开始说话");
         }
 
         @Override
@@ -118,12 +118,12 @@ public class MyVoiceCloud {
             // Tips：
             // 错误码：10118(您没有说话)，可能是录音机权限被禁，需要提示用户打开应用的录音权限。
             // 如果使用本地功能（语音+）需要提示用户开启语音+的录音权限。
-            MainActivity.showTip(error.getPlainDescription(true));
+            showTip(error.getPlainDescription(true));
         }
 
         @Override
         public void onEndOfSpeech() {
-            MainActivity.showTip("结束说话");
+            showTip("结束说话");
         }
 
         @Override
@@ -154,7 +154,7 @@ public class MyVoiceCloud {
 
         @Override
         public void onVolumeChanged(int volume) {
-            MainActivity.showTip("当前正在说话，音量大小：" + volume);
+            showTip("当前正在说话，音量大小：" + volume);
         }
 
         @Override
@@ -168,7 +168,7 @@ public class MyVoiceCloud {
         setTtsParam(voice);
         int code = mTts.startSpeaking(str, mTtsListener);
         if(code != ErrorCode.SUCCESS){
-            MainActivity.showTip(mApp.getString(R.string.tts_fail) + code);
+            showTip(mApp.getString(R.string.tts_fail) + code);
             return false;
         } else {
             return true;
@@ -198,7 +198,7 @@ public class MyVoiceCloud {
         @Override
         public void onInit(int code) {
             if (code != ErrorCode.SUCCESS) {
-                MainActivity.showTip(mApp.getString(R.string.init_fail)+code);
+                showTip(mApp.getString(R.string.init_fail)+code);
             }
         }
     };
@@ -232,7 +232,7 @@ public class MyVoiceCloud {
         @Override
         public void onCompleted(SpeechError error) {
             if (error != null) {
-                MainActivity.showTip(error.getPlainDescription(true));
+                showTip(error.getPlainDescription(true));
             }
         }
 
@@ -245,4 +245,8 @@ public class MyVoiceCloud {
         return mTts.isSpeaking();
     }
     // ----------------TTS end----------------
+
+    private static void showTip(String str){
+        MainActivity.showTip(str);
+    }
 }
