@@ -7,8 +7,6 @@
 
 package com.blStudio.belong;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,7 +20,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
@@ -92,71 +89,50 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         layout.addView(view, 0, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         
         ImageButton imgBtnVoice = (ImageButton)findViewById(R.id.imgBtnVoice);
-        GetVoice imgBtnVoiceListener = new GetVoice();
-        imgBtnVoice.setOnClickListener(imgBtnVoiceListener);
+        imgBtnVoice.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                MyVoiceCloud.getVoice();
+            }
+        });
         
         ImageButton imgBtnSend = (ImageButton)findViewById(R.id.imgBtnSend);
-        SendMessage imgBtnSendListener = new SendMessage();
-        imgBtnSend.setOnClickListener(imgBtnSendListener);
+        imgBtnSend.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                sendMessage();
+            }
+        });
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
         mEditText = (EditText)findViewById(R.id.mainEditText);
         oBalloon = (Button)findViewById(R.id.outgoingBalloon);
         iBalloon = (Button)findViewById(R.id.incomingBalloon);
-        oBalloonFadeOut = setFadeOut(oBalloon);
-        iBalloonFadeOut = setFadeOut(iBalloon);
+        oBalloonFadeOut = MyAnimation.setFadeOut(oBalloon);
+        iBalloonFadeOut = MyAnimation.setFadeOut(iBalloon);
         MyLeftDrawer.init(instance);
         MyLeftDrawer.mDrawerList.setAdapter(new MyLeftDrawer(MyLeftDrawer.mDrawerTitles, this));
     }
 
-    ObjectAnimator setFadeOut(final Button btn){
-        ObjectAnimator fadeOut = ObjectAnimator.ofFloat(btn,"alpha",1f,0f);
-        fadeOut.setDuration(5000);
-        fadeOut.setStartDelay(2000);
-        fadeOut.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if (btn.getAlpha() == 0f) {
-                    btn.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
-        return fadeOut;
-    }
-
-    // 录音按钮
-    class GetVoice implements OnClickListener{
-        @Override
-        public void onClick(View v){
-            MyVoiceCloud.getVoice();
+    void sendMessage(){
+        String inputStr = mEditText.getText().toString();
+        if (inputStr.equals("")) {
+            //未输入字符
+            showTip(getString(R.string.no_text_in_edit_text));
         }
-    }
-
-    // 发送按钮
-    class SendMessage implements OnClickListener{
-        @Override
-        public void onClick(View v){
-            String inputStr = mEditText.getText().toString();
-            if (inputStr.equals("")) {
-                //未输入字符
-                showTip(getString(R.string.no_text_in_edit_text));
-            }
-            else{
-                mEditText.setText("");
-                showOnOutgoingBalloon(inputStr);
-                switch (inputStr) {
-                    case "开灯。":
-                    case "开灯":
-                        new DownloadTask().execute(getString(R.string.home_url) + "gpio/gpio_set.php?id=38&mode=out&voltage=high");
-                        break;
-                    case "关灯":
-                        new DownloadTask().execute(getString(R.string.home_url) + "gpio/gpio_set.php?id=38&mode=out&voltage=low");
-                        break;
-                    default:
-                        getTuringRobotReply(inputStr);
-                        break;
-                }
+        else{
+            mEditText.setText("");
+            showOnBalloon(inputStr, oBalloon, oBalloonFadeOut);
+            switch (inputStr) {
+                case "开灯。":
+                case "开灯":
+                    new DownloadTask().execute(getString(R.string.home_url) + "gpio/gpio_set.php?id=38&mode=out&voltage=high");
+                    break;
+                case "关灯":
+                    new DownloadTask().execute(getString(R.string.home_url) + "gpio/gpio_set.php?id=38&mode=out&voltage=low");
+                    break;
+                default:
+                    getTuringRobotReply(inputStr);
+                    break;
             }
         }
     }
@@ -397,18 +373,10 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         builder.setIcon(R.drawable.logo);
         builder.create().show();
     }
-    
 
-    
-
-    
-
-    
-
-    
     public static void printResult(String result) {
 
-        showOnOutgoingBalloon(result);
+        showOnBalloon(result, oBalloon, oBalloonFadeOut);
         switch (result) {
 //            case "开灯":
 //            case "开灯。":
@@ -426,18 +394,19 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         }
 
     }
-    
-    private static void showOnOutgoingBalloon(String str){
-        oBalloon.setText(str);
-        oBalloon.setAlpha(1f);
-        oBalloon.setVisibility(View.VISIBLE);
-        
-        if(oBalloonFadeOut.isStarted()){
-            Log.d("FADEOUT","oBalloon end");
-            oBalloonFadeOut.cancel();
+
+    private static void showOnBalloon(String str, Button btn, ObjectAnimator obj) {
+        btn.setText(str);
+        btn.setAlpha(1f);
+        btn.setVisibility(View.VISIBLE);
+
+        // 如果上一个动画还在则取消它
+        if(obj.isStarted()){
+            obj.cancel();
         }
-        Log.d("FADEOUT","oBalloon start");
-        oBalloonFadeOut.start();
+
+        Log.d("FADEOUT", "Fadeout start");
+        obj.start();
     }
     
     private static void getTuringRobotReply(String outgoingString){
@@ -531,26 +500,14 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
                     text = instance.getString(R.string.robot_no_reply);
                 }
                 Log.d("TuringRobot",text);
-                showOnInComingBalloon(text);
+                showOnBalloon(text, iBalloon, iBalloonFadeOut);
+                startSpeaking(text);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             
         }
-    }
-    
-    private static void showOnInComingBalloon(String str){
-        iBalloon.setText(str);
-        iBalloon.setAlpha(1f);
-        iBalloon.setVisibility(View.VISIBLE);
-        
-        if(iBalloonFadeOut.isStarted()){
-            Log.d("FADEOUT","iBalloon end");
-            iBalloonFadeOut.cancel();
-        }
-        Log.d("FADEOUT","iBalloon start");
-        iBalloonFadeOut.start();
-        startSpeaking(str);
     }
     
     private static void startSpeaking(String str){
