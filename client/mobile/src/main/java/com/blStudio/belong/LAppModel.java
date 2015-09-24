@@ -163,6 +163,7 @@ public class LAppModel extends L2DBaseModel
 
         updating=false;
         initialized=true;
+        Log.d("Init","Initialized!!!!");
     }
 
 
