@@ -1,0 +1,48 @@
+<resources>
+    <!--Key values.-->
+    <string name="voicecloud_app_id">54b1650c</string>
+    <string name="simsimi_trial_key">1eef60df-23e1-4f6d-a072-8cbd5ccd9b0f</string>
+    <string name="simsimi_trial_api">http://sandbox.api.simsimi.com/request.p</string>
+    <string name="turing_robot_key">0ead0379d1eef2c0fa635a8b555d28aa</string>
+    <string name="turing_robot_api">http://www.tuling123.com/openapi/api?</string>
+    <string name="robot_no_reply">_(:з」∠)_</string>
+    <string name="home_url">http://zbl1992.vicp.cc/</string>
+
+    <!--Below are descriptions.-->
+    <string name="imgBtnVoiceDes">Press this btn to get Voice</string>
+    <string name="imgBtnCameraDes">Press this btn to take a picture</string>
+    <string name="imgBtnSendDes">Press this btn to send.</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <!--下面是语音云的东西-->
+    <!-- 语言 -->
+    <string-array name="language_entries">
+        <item>普通话</item>
+        <item>粤语</item>
+        <item>河南话</item>
+        <item>英语</item>
+    </string-array>
+    <string-array name="language_values">
+        <item>mandarin</item>
+        <item>cantonese</item>
+        <item>henanese</item>
+        <item>en_us</item>
+    </string-array>
+    <!-- 标点符号 -->
+    <string-array name="punc_entries">
+        <item>有标点</item>
+        <item>无标点</item>
+    </string-array>
+    <string-array name="punc_values">
+        <item>1</item>
+        <item>0</item>
+    </string-array>
+    <string-array name="dwa_entries">
+        <item>开启</item>
+        <item>关闭</item>
+    </string-array>
+    <string name="pref_title_iat_dwa">结果动态修正</string>
+    <string name="pref_key_iat_show">iat_show</string>
+    <string name="pref_title_iat_show">显示听写界面</string>
+</resources>
