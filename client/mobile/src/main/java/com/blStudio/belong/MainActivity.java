@@ -71,7 +71,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
     
     void setupGUI(){        
         LAppView view = live2DMgr.createView(this) ;
-        
+
         FrameLayout layout=(FrameLayout) findViewById(R.id.live2DLayout);
         layout.addView(view, 0, new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         
@@ -92,7 +92,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         ImageButton imgBtnCamera = (ImageButton)findViewById(R.id.imgBtnCamera);
         imgBtnCamera.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                MyPrintScreen.printScreen(instance);
+                MyScreenShot.screenShot(instance);
             }
         });
 
