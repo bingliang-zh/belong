@@ -2,16 +2,17 @@
 
     <!--International things.-->
     <string name="app_name">友伴</string>
-    <string name="text_begin">話します&#8230;</string>
+    <string name="text_begin">話します…</string>
     <string name="click_KEYCODE_BACK">もう一度押すと、プログラムを終了します</string>
     <string name="connection_error">接続エラーが発生</string>
-    <string name="change_model">少女祈禱中&#8230;</string>
+    <string name="change_model">少女祈禱中…</string>
     <string name="change_model_title">取り換えモデル</string>
     <string name="author_detail">著者の詳細</string>
     <string name="author_detail_title">著者の詳細</string>
     <string name="author_detail_text">プログラムはblStudioによって開発されたLive2d®エンジンをベースにしています。 \nのサポート方法：アリペイのアカウント bl_indie@qq.com</string>
-    <string name="mainEdtTxtHnt">私が何かを言いたいです&#8230;</string>
-    <string name="no_text_in_edit_text">さりげなく言います&#8230;</string>
+    <string name="main_edit_text_hint">私が何かを言いたいです…</string>
+    <string name="no_text_in_edit_text">さりげなく言います…</string>
+    <string name="screen_shot_tip">内部ストレージにキャプチャ…\n霧に見えるかもしれません、心配しないでください。</string>
 
     <string name="drawer_title">リスト</string>
     <string-array name="drawer_array">

@@ -14,11 +14,11 @@ public class MyScreenShot {
 
     public static void screenShot(Activity instance){
         mApp = instance;
-//        showTip("blahblahblahblah");
         Date now = new Date();
         android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
         String mPath = Environment.getExternalStorageDirectory().toString() + "/belong_" + now + ".png";
         LAppRenderer.captureFrame(mPath, mApp);
+        showTip(mApp.getString(R.string.screen_shot_tip));
     }
 
     private static void showTip(String str){

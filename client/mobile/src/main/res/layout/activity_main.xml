@@ -69,7 +69,7 @@
 	                android:background="@null"
 	                android:singleLine="true"
 	                android:textColor="#ffffff"
-	                android:hint="@string/mainEdtTxtHnt"
+	                android:hint="@string/main_edit_text_hint"
 	                android:textColorHint="#ffffff" />
 	            
 	            <ImageButton
