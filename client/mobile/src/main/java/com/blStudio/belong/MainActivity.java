@@ -67,6 +67,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         // 界面
         setContentView(R.layout.activity_main);
         setupGUI();
+        setProgressBarVisibility(true);
     }
     
     void setupGUI(){        

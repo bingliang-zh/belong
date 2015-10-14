@@ -11,17 +11,15 @@
         android:layout_alignParentLeft="true"        
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="#000000"
-        >
+        android:background="#000000" >
         
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
-            android:layout_margin="5dip"
-            >
+            android:layout_margin="5dip" >
             
-            <Button 
+            <Button
                 android:id="@+id/replyBalloon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -31,8 +29,7 @@
                 android:background="@drawable/balloon_reply_normal"
                 android:text=""
                 android:maxWidth="240dp"
-                android:visibility="invisible"
-                />
+                android:visibility="invisible" />
 
 	        <LinearLayout
 	            android:id="@+id/bottomLinearLayout"
@@ -81,10 +78,10 @@
 	                android:scaleType="fitCenter"
 	                android:src="@drawable/ic_action_send_now"
 	                android:contentDescription="@string/imgBtnSendDes" />
-	            
+
 	        </LinearLayout>
-	        
-	        <Button 
+
+	        <Button
                 android:id="@+id/sendBalloon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -93,12 +90,32 @@
                 android:layout_alignParentEnd="true"
                 android:background="@drawable/balloon_send_normal"
                 android:text=""
-                android:maxWidth="240dp"                
-                android:visibility="invisible"
-                />
+                android:maxWidth="240dp"
+                android:visibility="invisible" />
 
 	    </RelativeLayout>
-	    
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" >
+
+            <!--Grey Spinner-->
+            <ProgressBar
+                android:id="@android:id/progress"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <!--Black Spinner-->
+            <ProgressBar
+                android:id="@android:id/progress"
+                style="?android:attr/progressBarStyleInverse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </FrameLayout>
+
     </FrameLayout>
     
 	<!-- The navigation drawer -->
@@ -109,7 +126,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:choiceMode="singleChoice"
-        android:divider="@null"
-        />
+        android:divider="@null" />
 
 </android.support.v4.widget.DrawerLayout>
