@@ -13,7 +13,6 @@
     <string name="main_edit_text_hint">想说点什么…</string>
     <string name="no_text_in_edit_text">随便说点啥…</string>
     <string name="screen_shot_tip">正在录屏至内置存储…\n可能预览有些糊，不必担心。</string>
-
     <string name="drawer_title">导航抽屉</string>
     <string-array name="drawer_array">
         <item>温度</item>
@@ -21,5 +20,6 @@
         <item>开灯</item>
         <item>关灯</item>
     </string-array>
+    <string name="loading">载入中…</string>
 
 </resources>

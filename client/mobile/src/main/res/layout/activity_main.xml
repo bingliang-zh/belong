@@ -95,26 +95,30 @@
 
 	    </RelativeLayout>
 
-        <FrameLayout
+        <LinearLayout
+            android:id="@+id/loadingSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" >
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:visibility="invisible" >
 
-            <!--Grey Spinner-->
+            <!--Spinner-->
             <ProgressBar
                 android:id="@android:id/progress"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
 
-            <!--Black Spinner-->
-            <ProgressBar
-                android:id="@android:id/progress"
-                style="?android:attr/progressBarStyleInverse"
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="@string/loading"
+                android:textColor="#FFFFFF"
+                android:layout_gravity="center" />
 
-        </FrameLayout>
+        </LinearLayout>
 
     </FrameLayout>
     
