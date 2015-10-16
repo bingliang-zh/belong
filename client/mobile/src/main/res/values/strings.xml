@@ -11,7 +11,7 @@
     <string name="author_detail_text">This app is developed by blStudio based on Live2d® engine.\nDonation: Alipay bl_indie@qq.com</string>
     <string name="main_edit_text_hint">Want to say something…</string>
     <string name="no_text_in_edit_text">Just say something…</string>
-    <string name="screen_shot_tip">Capturing to internal storage…\nMay seem foggy, don\'t worry.</string>
+    <string name="screen_shot_tip">Capturing to internal storage…May seem foggy, don\'t worry.</string>
     <string name="drawer_title">Navigation Drawer</string>
     <string-array name="drawer_array">
         <item>Temperature</item>

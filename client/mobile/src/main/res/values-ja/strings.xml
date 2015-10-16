@@ -12,7 +12,7 @@
     <string name="author_detail_text">プログラムはblStudioによって開発されたLive2d®エンジンをベースにしています。 \nのサポート方法：アリペイのアカウント bl_indie@qq.com</string>
     <string name="main_edit_text_hint">私が何かを言いたいです…</string>
     <string name="no_text_in_edit_text">さりげなく言います…</string>
-    <string name="screen_shot_tip">内部ストレージにキャプチャ…\n霧に見えるかもしれません、心配しないでください。</string>
+    <string name="screen_shot_tip">内部ストレージにキャプチャ…霧に見えるかもしれません、心配しないでください。</string>
     <string name="drawer_title">リスト</string>
     <string-array name="drawer_array">
         <item>温度</item>

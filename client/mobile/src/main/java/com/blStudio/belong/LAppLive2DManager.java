@@ -6,6 +6,10 @@
  */
 package com.blStudio.belong;
 
+import android.app.Activity;
+import android.os.Message;
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
@@ -13,8 +17,6 @@ import javax.microedition.khronos.opengles.GL10;
 import jp.live2d.Live2D;
 import jp.live2d.framework.L2DViewMatrix;
 import jp.live2d.framework.Live2DFramework;
-import android.app.Activity;
-import android.util.Log;
 
 
 public class LAppLive2DManager
@@ -31,8 +33,6 @@ public class LAppLive2DManager
     
     private int                     modelCount      =-1;
     private boolean                 reloadFlg;
-
-
 
     public LAppLive2DManager()
     {
@@ -60,7 +60,9 @@ public class LAppLive2DManager
         view.update();
         if(reloadFlg)
         {
-            
+            Message msg = Message.obtain(MainActivity.handler,
+                    MyDefine.SPINNER, MyDefine.SHOW);
+            msg.sendToTarget();
             reloadFlg=false;
 
             int no = modelCount % 2;
@@ -89,6 +91,9 @@ public class LAppLive2DManager
                 Log.e(TAG,"Failed to load."+e.getStackTrace());
                 MainActivity.exit();
             }
+            Message msg2 = Message.obtain(MainActivity.handler,
+                    MyDefine.SPINNER, MyDefine.HIDE);
+            msg2.sendToTarget();
         }
     }
 

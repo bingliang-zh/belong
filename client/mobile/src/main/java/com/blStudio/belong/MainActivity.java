@@ -13,6 +13,7 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -44,8 +45,10 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
     private static EditText mEditText;
     private static Button sendBalloon;
     private static Button replyBalloon;
-    static ObjectAnimator sendBalloonFadeOut;
-    static ObjectAnimator replyBalloonFadeOut;
+    private static ObjectAnimator sendBalloonFadeOut;
+    private static ObjectAnimator replyBalloonFadeOut;
+    private static int spinnerCount;
+    private static LinearLayout spinner;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -69,7 +72,10 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         setupGUI();
     }
     
-    void setupGUI(){        
+    void setupGUI(){
+        spinner = (LinearLayout)findViewById(R.id.loadingSpinner);
+        spinnerCount = 0;
+
         LAppView view = live2DMgr.createView(this) ;
 
         FrameLayout layout=(FrameLayout) findViewById(R.id.live2DLayout);
@@ -83,15 +89,15 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         });
         
         ImageButton imgBtnSend = (ImageButton)findViewById(R.id.imgBtnSend);
-        imgBtnSend.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        imgBtnSend.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 sendMessage();
             }
         });
 
         ImageButton imgBtnCamera = (ImageButton)findViewById(R.id.imgBtnCamera);
-        imgBtnCamera.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        imgBtnCamera.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 MyScreenShot.screenShot(instance);
             }
         });
@@ -163,7 +169,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
                 onAuthorDetailClicked();
                 break;
             case R.id.change_model:
-                showTip(getString(R.string.change_model));
+//                showTip(getString(R.string.change_model));
                 live2DMgr.changeModel();
                 break;
             default:
@@ -256,4 +262,32 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         mToast.setText(str);
         mToast.show();
     }
+
+    private static void updateSpinnerStatus(Object obj) {
+        if (obj == MyDefine.SHOW) {
+            spinnerCount++;
+        }
+        else if (obj == MyDefine.HIDE) {
+            spinnerCount--;
+        }
+
+        if(spinnerCount > 0) {
+            spinner.setVisibility(View.VISIBLE);
+        }
+        else {
+            spinner.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    protected static Handler handler = new Handler() {
+        @Override
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what){
+                case MyDefine.SPINNER:
+                    updateSpinnerStatus(msg.obj);
+                    break;
+                default: break;
+            }
+        };
+    };
 }
