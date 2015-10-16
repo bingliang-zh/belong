@@ -14,6 +14,7 @@ import android.app.AlertDialog.Builder;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -279,15 +280,17 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         }
     }
 
-    protected static Handler handler = new Handler() {
-        @Override
-        public void handleMessage(android.os.Message msg) {
+    public static Handler handler = new MyVeryOwnHandler();
+
+    private static class MyVeryOwnHandler extends Handler {
+        public void handleMessage(Message msg) {
             switch (msg.what){
                 case MyDefine.SPINNER:
                     updateSpinnerStatus(msg.obj);
                     break;
                 default: break;
             }
-        };
-    };
+        }
+    }
+
 }
