@@ -57,6 +57,10 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         instance=this;
         mToast = Toast.makeText(this, "", Toast.LENGTH_SHORT);
 
+        Message msg = Message.obtain(MainActivity.handler,
+                MyDefine.SPINNER, MyDefine.SHOW);
+        msg.sendToTarget();
+
         // live2d
         SoundManager.init(this);
         live2DMgr = new LAppLive2DManager();
@@ -71,6 +75,10 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         // 界面
         setContentView(R.layout.activity_main);
         setupGUI();
+
+        Message msg2 = Message.obtain(MainActivity.handler,
+                MyDefine.SPINNER, MyDefine.HIDE);
+        msg2.sendToTarget();
     }
     
     void setupGUI(){
@@ -280,9 +288,9 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         }
     }
 
-    public static Handler handler = new MyVeryOwnHandler();
+    public static Handler handler = new MyHandler();
 
-    private static class MyVeryOwnHandler extends Handler {
+    private static class MyHandler extends Handler {
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case MyDefine.SPINNER:
