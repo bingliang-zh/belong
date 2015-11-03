@@ -14,12 +14,7 @@
     <string name="no_text_in_edit_text">さりげなく言います…</string>
     <string name="screen_shot_tip">内部ストレージにキャプチャ…霧に見えるかもしれません、心配しないでください。</string>
     <string name="drawer_title">リスト</string>
-    <string-array name="drawer_array">
-        <item>温度</item>
-        <item>土壌</item>
-        <item>明かりをつけます</item>
-        <item>明かりを消します</item>
-    </string-array>
     <string name="loading">読み込んでいます…</string>
+    <string name="fail">失敗，エラーコード：</string>
 
 </resources>

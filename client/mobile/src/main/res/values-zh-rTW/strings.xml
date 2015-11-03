@@ -14,12 +14,7 @@
     <string name="no_text_in_edit_text">隨便說點啥…</string>
     <string name="screen_shot_tip">正在錄屏至內置存儲…可能預覽有些糊，不必擔心。</string>
     <string name="drawer_title">導航抽屜</string>
-    <string-array name="drawer_array">
-        <item>溫度</item>
-        <item>土壤</item>
-        <item>開燈</item>
-        <item>關燈</item>
-    </string-array>
     <string name="loading">載入中…</string>
+    <string name="fail">失敗，錯誤碼：</string>
 
 </resources>

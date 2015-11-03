@@ -57,7 +57,7 @@ public class MyVoiceCloud {
         setIatParam();
         int code = mIat.startListening(recognizerListener);
         if (code != ErrorCode.SUCCESS) {
-            showTip(mApp.getString(R.string.iat_fail) + code);
+            showTip(mApp.getString(R.string.fail) + code);
         } else {
             showTip(mApp.getString(R.string.text_begin));
         }
@@ -101,7 +101,7 @@ public class MyVoiceCloud {
         @Override
         public void onInit(int code) {
             if (code != ErrorCode.SUCCESS) {
-                showTip(mApp.getString(R.string.init_fail) + code);
+                showTip(mApp.getString(R.string.fail) + code);
             }
         }
     };
@@ -168,7 +168,7 @@ public class MyVoiceCloud {
         setTtsParam(voice);
         int code = mTts.startSpeaking(str, mTtsListener);
         if(code != ErrorCode.SUCCESS){
-            showTip(mApp.getString(R.string.tts_fail) + code);
+            showTip(mApp.getString(R.string.fail) + code);
             return false;
         } else {
             return true;
@@ -198,7 +198,7 @@ public class MyVoiceCloud {
         @Override
         public void onInit(int code) {
             if (code != ErrorCode.SUCCESS) {
-                showTip(mApp.getString(R.string.init_fail)+code);
+                showTip(mApp.getString(R.string.fail)+code);
             }
         }
     };

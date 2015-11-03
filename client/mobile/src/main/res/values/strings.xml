@@ -13,17 +13,7 @@
     <string name="no_text_in_edit_text">Just say something…</string>
     <string name="screen_shot_tip">Capturing to internal storage…May seem foggy, don\'t worry.</string>
     <string name="drawer_title">Navigation Drawer</string>
-    <string-array name="drawer_array">
-        <item>Temperature</item>
-        <item>Dirt</item>
-        <item>Turn Light On</item>
-        <item>Turn Light Off</item>
-    </string-array>
     <string name="loading">Loading…</string>
-
-    <!--Error things, need translation too-->
-    <string name="init_fail" translatable="false">Initialization failed, error code: </string>
-    <string name="iat_fail" translatable="false">Get voice failed, error code: </string>
-    <string name="tts_fail" translatable="false">Text to sound failed, error code: </string>
+    <string name="fail">Failed, error code: </string>
 
 </resources>
