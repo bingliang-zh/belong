@@ -61,25 +61,6 @@ public class MyNetwork {
 
     }
 
-    public static void selectItem(int position) {
-        switch (position){
-            case 0:
-                new DownloadTask().execute(mApp.getString(R.string.home_url)+"get_temperature.php");
-                break;
-            case 1:
-                new DownloadTask().execute(mApp.getString(R.string.home_url)+"gpio/gpio_set.php?id=7&mode=in");
-                break;
-            case 2:
-                new DownloadTask().execute(mApp.getString(R.string.home_url)+"gpio/gpio_set.php?id=38&mode=out&voltage=high");
-                break;
-            case 3:
-                new DownloadTask().execute(mApp.getString(R.string.home_url)+"gpio/gpio_set.php?id=38&mode=out&voltage=low");
-                break;
-            default:
-                break;
-        }
-    }
-
     private static class DownloadTask extends AsyncTask<String, Void, String> {
 
         @Override

@@ -74,6 +74,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
 
         // 界面
         setContentView(R.layout.activity_main);
+        setTitle(R.string.app_name);
         setupGUI();
 
         Message msg2 = Message.obtain(MainActivity.handler,
@@ -199,7 +200,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
     /* The click listener for RecyclerView in the navigation drawer */
     @Override
     public void onClick(View view, int position) {
-        MyNetwork.selectItem(position);
+        MyLeftDrawer.selectItem(position);
     }
     
     private long exitTime = System.currentTimeMillis();
