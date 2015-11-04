@@ -72,6 +72,9 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         // 初始化自定义网络模块
         MyNetwork.init(instance);
 
+        // 设定语言
+        MyGlobalization.init(instance);
+
         // 界面
         setContentView(R.layout.activity_main);
         setTitle(R.string.app_name);
