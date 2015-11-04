@@ -153,7 +153,7 @@ public class MyVoiceCloud {
         }
 
         @Override
-        public void onVolumeChanged(int volume) {
+        public void onVolumeChanged(int volume, byte[] bytes) {
             showTip("当前正在说话，音量大小：" + volume);
         }
 

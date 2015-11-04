@@ -8,9 +8,7 @@
     </string-array>
 
     <!--Key values.-->
-    <string name="voicecloud_app_id">54b1650c</string>
-    <string name="simsimi_trial_key">1eef60df-23e1-4f6d-a072-8cbd5ccd9b0f</string>
-    <string name="simsimi_trial_api">http://sandbox.api.simsimi.com/request.p</string>
+    <string name="voicecloud_app_id">5639cb58</string>
     <string name="turing_robot_key">0ead0379d1eef2c0fa635a8b555d28aa</string>
     <string name="turing_robot_api">http://www.tuling123.com/openapi/api?</string>
     <string name="robot_no_reply">_(:з」∠)_</string>
