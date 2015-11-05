@@ -1,4 +1,4 @@
-package com.blStudio.belong;
+package com.blStudio.Reimu;
 
 import android.app.Activity;
 import android.content.Context;

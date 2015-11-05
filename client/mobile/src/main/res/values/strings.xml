@@ -16,4 +16,8 @@
     <string name="loading">Loading…</string>
     <string name="fail">Failed, error code: </string>
 
+    <string name="unsupported_title">Notice</string>
+    <string name="unsupported_text">This application "Reimu" is no longer supported. Please change to "belong". Press OK to visit Google Play download page.</string>
+    <string name="unsupported_ok">OK</string>
+
 </resources>

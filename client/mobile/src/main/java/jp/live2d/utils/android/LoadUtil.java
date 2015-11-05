@@ -13,7 +13,7 @@ import java.io.InputStream;
 import javax.microedition.khronos.opengles.GL10;
 import javax.microedition.khronos.opengles.GL11;
 
-import com.blStudio.belong.LAppDefine;
+import com.blStudio.Reimu.LAppDefine;
 
 import jp.live2d.util.UtDebug;
 

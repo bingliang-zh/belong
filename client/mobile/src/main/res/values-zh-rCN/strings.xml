@@ -16,5 +16,8 @@
     <string name="drawer_title">导航抽屉</string>
     <string name="loading">载入中…</string>
     <string name="fail">失败，错误码：</string>
+    <string name="unsupported_ok">确认</string>
+    <string name="unsupported_title">通知</string>
+    <string name="unsupported_text">不再更新当前应用程序“灵梦”。请更改为“友伴”。点击确定访问谷歌商店下载页面。</string>
 
 </resources>

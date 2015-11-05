@@ -16,5 +16,8 @@
     <string name="drawer_title">リスト</string>
     <string name="loading">読み込んでいます…</string>
     <string name="fail">失敗，エラーコード：</string>
+    <string name="unsupported_ok">确认</string>
+    <string name="unsupported_title">お知らせ</string>
+    <string name="unsupported_text">引退し、現在のアプリケーション「靈夢」変更し、「友伴」。 Googleの店のダウンロードページにアクセスするには、[OK]をクリックします。</string>
 
 </resources>

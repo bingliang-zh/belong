@@ -5,7 +5,7 @@
  *
  *  (c) Live2D Inc. All rights reserved.
  */
-package com.blStudio.belong;
+package com.blStudio.Reimu;
 
 import jp.live2d.framework.L2DMatrix44;
 import jp.live2d.framework.L2DTargetPoint;

@@ -1,9 +1,7 @@
-package com.blStudio.belong;
+package com.blStudio.Reimu;
 
 import android.app.Activity;
 import android.os.Environment;
-
-import com.blStudio.Reimu.R;
 
 import java.util.Date;
 

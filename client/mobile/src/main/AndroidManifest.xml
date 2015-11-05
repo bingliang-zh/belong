@@ -15,7 +15,7 @@
         android:theme="@style/AppTheme"
         android:allowBackup="false">
         <activity
-            android:name="com.blStudio.belong.MainActivity"
+            android:name="com.blStudio.Reimu.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden"

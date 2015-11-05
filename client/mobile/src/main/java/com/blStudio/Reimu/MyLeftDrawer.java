@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blStudio.belong;
+package com.blStudio.Reimu;
 
 import android.app.Activity;
 import android.content.res.Configuration;
@@ -28,8 +28,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.blStudio.Reimu.R;
 
 import java.util.Locale;
 

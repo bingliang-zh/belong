@@ -5,13 +5,16 @@
  *  (c) Live2D Inc. All rights reserved.
  */
 
-package com.blStudio.belong;
+package com.blStudio.Reimu;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -28,8 +31,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-
-import com.blStudio.Reimu.R;
 
 import jp.live2d.utils.android.FileManager;
 import jp.live2d.utils.android.SoundManager;
@@ -85,6 +86,8 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         Message msg2 = Message.obtain(MainActivity.handler,
                 MyDefine.SPINNER, MyDefine.HIDE);
         msg2.sendToTarget();
+
+        showUnsupportedNotice();
     }
     
     void setupGUI(){
@@ -199,6 +202,25 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         builder.setTitle(R.string.author_detail_title);
         builder.setMessage(R.string.author_detail_text);
         builder.setIcon(R.drawable.logo);
+        builder.create().show();
+    }
+
+    void showUnsupportedNotice(){
+        AlertDialog.Builder builder = new Builder(MainActivity.this);
+        builder.setTitle(R.string.unsupported_title);
+        builder.setMessage(R.string.unsupported_text);
+        builder.setIcon(R.drawable.logo);
+        builder.setPositiveButton(R.string.unsupported_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
+                }
+            }
+        });
         builder.create().show();
     }
     
