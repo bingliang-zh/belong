@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.blStudio.Reimu.R;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 

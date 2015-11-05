@@ -29,6 +29,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.blStudio.Reimu.R;
+
 import jp.live2d.utils.android.FileManager;
 import jp.live2d.utils.android.SoundManager;
 

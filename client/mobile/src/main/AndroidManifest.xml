@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.blStudio.belong"
+    package="com.blStudio.Reimu"
     android:versionCode="10102"
     android:versionName="1.1.2" >
 

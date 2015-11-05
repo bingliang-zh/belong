@@ -29,6 +29,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.blStudio.Reimu.R;
+
 import java.util.Locale;
 
 public class MyLeftDrawer extends RecyclerView.Adapter<MyLeftDrawer.ViewHolder>{
