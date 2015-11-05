@@ -19,17 +19,5 @@
 #   public *;
 #}
 
--dontwarn com.iflytek.speech.**
-
--keepattributes Signature
-
--libraryjars src/main/jniLibs/armeabi/libmsc.so
-
--keep public class * extends android.app.Activity
--keep public class * extends android.app.Application
--keep public class * extends android.app.Service
--keep public class * extends android.content.BroadcastReceiver
--keep public class * extends android.content.ContentProvider
-
 -keep class com.iflytek.**{*;}
  
