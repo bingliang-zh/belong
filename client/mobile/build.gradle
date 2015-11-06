@@ -31,7 +31,7 @@ android {
             applicationVariants.all{ variant->
                 variant.outputs.each { output->
                     def oldFile = output.outputFile
-                    def releaseApkName = 'belong_' + getVersionNameFromManifest() + '_' + getDate() + '_.apk'
+                    def releaseApkName = 'reimu_' + getVersionNameFromManifest() + '_' + getDate() + '_.apk'
                     output.outputFile = new File(oldFile.parent, releaseApkName)
                 }
             }
