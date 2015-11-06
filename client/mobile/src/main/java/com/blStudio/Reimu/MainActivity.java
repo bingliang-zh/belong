@@ -213,12 +213,19 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
         builder.setPositiveButton(R.string.unsupported_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                final String appPackageName = getPackageName(); // getPackageName() from Context or Activity object
+                final String appPackageName = "com.blStudio.belong";
                 try {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-                } catch (android.content.ActivityNotFoundException anfe) {
+                } catch (android.content.ActivityNotFoundException exp) {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
                 }
+            }
+        });
+        builder.setCancelable(false);
+        builder.setNegativeButton(R.string.unsupported_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
             }
         });
         builder.create().show();

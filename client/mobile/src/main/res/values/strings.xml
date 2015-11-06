@@ -1,6 +1,6 @@
 <resources>
     <!--International things.-->
-    <string name="app_name">Belong</string>
+    <string name="app_name">Reimu</string>
     <string name="text_begin">Please speak…</string>
     <string name="click_KEYCODE_BACK">Press twice to quit</string>
     <string name="connection_error">Connection error</string>
@@ -17,7 +17,8 @@
     <string name="fail">Failed, error code: </string>
 
     <string name="unsupported_title">Notice</string>
-    <string name="unsupported_text">This application "Reimu" is no longer supported. Please change to "belong". Press OK to visit Google Play download page.</string>
-    <string name="unsupported_ok">OK</string>
+    <string name="unsupported_text">This application "Reimu" is no longer supported. Please change to "belong". Press "UPDATE" to visit Google Play download page.</string>
+    <string name="unsupported_ok">Update</string>
+    <string name="unsupported_cancel">Cancel</string>
 
 </resources>

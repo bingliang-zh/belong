@@ -1,7 +1,7 @@
 <resources>
 
     <!--International things.-->
-    <string name="app_name">友伴</string>
+    <string name="app_name">靈夢</string>
     <string name="text_begin">話します…</string>
     <string name="click_KEYCODE_BACK">もう一度押すと、プログラムを終了します</string>
     <string name="connection_error">接続エラーが発生</string>
@@ -16,8 +16,9 @@
     <string name="drawer_title">リスト</string>
     <string name="loading">読み込んでいます…</string>
     <string name="fail">失敗，エラーコード：</string>
-    <string name="unsupported_ok">确认</string>
+    <string name="unsupported_ok">アップデート</string>
     <string name="unsupported_title">お知らせ</string>
-    <string name="unsupported_text">引退し、現在のアプリケーション「靈夢」変更し、「友伴」。 Googleの店のダウンロードページにアクセスするには、[OK]をクリックします。</string>
+    <string name="unsupported_text">引退し、現在のアプリケーション「靈夢」変更し、「友伴」。 Googleの店のダウンロードページにアクセスするには、[アップデート]をクリックします。</string>
+    <string name="unsupported_cancel">キャンセル</string>
 
 </resources>

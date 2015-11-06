@@ -1,7 +1,7 @@
 <resources>
 
     <!--International things.-->
-    <string name="app_name">友伴</string>
+    <string name="app_name">靈夢</string>
     <string name="text_begin">請開始說話…</string>
     <string name="click_KEYCODE_BACK">再按一次退出程序</string>
     <string name="connection_error">連接錯誤</string>
@@ -16,8 +16,9 @@
     <string name="drawer_title">導航抽屜</string>
     <string name="loading">載入中…</string>
     <string name="fail">失敗，錯誤碼：</string>
-    <string name="unsupported_ok">確認</string>
+    <string name="unsupported_ok">更新</string>
     <string name="unsupported_title">通知</string>
-    <string name="unsupported_text">不再更新當前應用程序“靈夢”。請更改為“友伴”。點擊確定訪問谷歌商店下載頁面。</string>
+    <string name="unsupported_text">不再更新當前應用程序“靈夢”。請更改為“友伴”。點擊“更新”訪問谷歌商店下載頁面。</string>
+    <string name="unsupported_cancel">取消</string>
 
 </resources>
