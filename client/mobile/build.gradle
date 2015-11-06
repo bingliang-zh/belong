@@ -1,4 +1,17 @@
+import com.android.builder.core.DefaultManifestParser
+
 apply plugin: 'com.android.application'
+
+def getDate() {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMddHHmm')
+    return formattedDate
+}
+
+def getVersionNameFromManifest(){
+    def manifestParser = new DefaultManifestParser()
+    return manifestParser.getVersionName(android.sourceSets.main.manifest.srcFile)
+}
 
 android {
     compileSdkVersion 22
@@ -14,6 +27,15 @@ android {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard.pro'
+
+            applicationVariants.all{ variant->
+                variant.outputs.each { output->
+                    def oldFile = output.outputFile
+                    def releaseApkName = 'belong_' + getVersionNameFromManifest() + '_' + getDate() + '_.apk'
+                    output.outputFile = new File(oldFile.parent, releaseApkName)
+                }
+            }
+
         }
     }
 }
