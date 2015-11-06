@@ -182,7 +182,6 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
                 onAuthorDetailClicked();
                 break;
             case R.id.change_model:
-//                showTip(getString(R.string.change_model));
                 live2DMgr.changeModel();
                 break;
             default:
