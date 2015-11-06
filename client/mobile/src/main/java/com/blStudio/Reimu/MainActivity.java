@@ -187,7 +187,6 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
                 onAuthorDetailClicked();
                 break;
             case R.id.change_model:
-//                showTip(getString(R.string.change_model));
                 live2DMgr.changeModel();
                 break;
             default:
@@ -198,7 +197,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
 
     void onAuthorDetailClicked(){
         Log.i("TAG", "=========选中作者详情键");
-        AlertDialog.Builder builder = new Builder(MainActivity.this);
+        AlertDialog.Builder builder = new Builder(instance);
         builder.setTitle(R.string.author_detail_title);
         builder.setMessage(R.string.author_detail_text);
         builder.setIcon(R.drawable.logo);

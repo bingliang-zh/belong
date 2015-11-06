@@ -4,7 +4,6 @@
     <string name="text_begin">Please speak…</string>
     <string name="click_KEYCODE_BACK">Press twice to quit</string>
     <string name="connection_error">Connection error</string>
-    <string name="change_model">Loading…</string>
     <string name="change_model_title">Change Model</string>
     <string name="author_detail">Author Details</string>
     <string name="author_detail_title">Author Details</string>
