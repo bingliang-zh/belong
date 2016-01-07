@@ -14,13 +14,13 @@ def getVersionNameFromManifest(){
 }
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "com.blStudio.belong"
         minSdkVersion 14
-        targetSdkVersion 22
+        targetSdkVersion 23
     }
 
     buildTypes {
@@ -28,21 +28,22 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard.pro'
 
-            applicationVariants.all{ variant->
-                variant.outputs.each { output->
-                    def oldFile = output.outputFile
-                    def releaseApkName = 'belong_' + getVersionNameFromManifest() + '_' + getDate() + '_.apk'
-                    output.outputFile = new File(oldFile.parent, releaseApkName)
-                }
-            }
+//            applicationVariants.all{ variant->
+//                variant.outputs.each { output->
+//                    def oldFile = output.outputFile
+//                    def releaseApkName = 'belong_' + getVersionNameFromManifest() + '_' + getDate() + '_.apk'
+//                    output.outputFile = new File(oldFile.parent, releaseApkName)
+//                }
+//            }
 
         }
     }
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:22.2.1'
-    compile 'com.android.support:recyclerview-v7:22.2.1'
+    compile 'com.android.support:support-v4:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:recyclerview-v7:23.1.1'
     compile files('libs/Msc.jar')
     compile files('libs/live2d_android.jar')
 }
