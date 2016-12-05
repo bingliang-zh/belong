@@ -15,7 +15,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -208,7 +207,7 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
     private long exitTime = System.currentTimeMillis();
     
     @Override
-    public boolean onKeyDown(int keyCode, @NonNull KeyEvent event){
+    public boolean onKeyDown(int keyCode, KeyEvent event){
         // 双击后退键退出
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if ( (System.currentTimeMillis() - exitTime) > 2000) {
@@ -276,10 +275,10 @@ public class MainActivity extends Activity implements MyLeftDrawer.OnItemClickLi
     }
 
     private static void updateSpinnerStatus(Object obj) {
-        if (obj == MyDefine.SHOW) {
+        if ((int)obj == MyDefine.SHOW) {
             spinnerCount++;
         }
-        else if (obj == MyDefine.HIDE) {
+        else if ((int)obj == MyDefine.HIDE) {
             spinnerCount--;
         }
 
