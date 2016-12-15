@@ -27,7 +27,3 @@ Live2d SDK受Live2D SDK License Agreement制约。
 * LICENSE: Apache license.
 * Live2d_SDK_readme.txt: Live2d SDK intrinsic readme.
 * 基于Live2d技术的虚拟形象物联网交互软件-周秉亮 毕设报告.pdf: Graduation project file.
-
-## 捐助：
-
-支付宝账户：bl_indie@qq.com
