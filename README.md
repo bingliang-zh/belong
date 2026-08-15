@@ -1,3 +1,5 @@
+
+
 #灵梦(reimu)
 基于Live2d技术的虚拟形象物联网交互软件。
 
@@ -22,7 +24,7 @@ Live2d SDK受Live2D SDK License Agreement制约。
 ./proj.reimu/assets/image/49309157_p0.jpg来源为カトルフィッシュ,[http://www.pixiv.net/member.php?id=10755804](http://www.pixiv.net/member.php?id=10755804)，侵立删。
 
 ## 文件夹描述
-* client: Folder containing android client files. Use Android Studio. 
+* client: Folder containing android client files. Use Android Studio (module: mobile).
 * server: Folder containing server files.
 * LICENSE: Apache license.
 * Live2d_SDK_readme.txt: Live2d SDK intrinsic readme.
